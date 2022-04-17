@@ -1,0 +1,12 @@
+{
+  "name": "react-dice",
+  "files": [
+    "dist/*"
+  ],
+  "packageManager": "yarn@3.2.0",
+  "main": "dist/react-dice.cjs.js",
+  "module": "dist/react-dice.esm.js",
+  "peerDependencies": {
+    "react": "16.8.0 || ^17.0.0"
+  }
+}
