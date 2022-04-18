@@ -8,5 +8,11 @@
   "module": "dist/react-dice.esm.js",
   "peerDependencies": {
     "react": "16.8.0 || ^17.0.0"
+  },
+  "dependencies": {
+    "@react-three/cannon": "^6.2.0",
+    "@react-three/fiber": "^8.0.11",
+    "three": "^0.139.2",
+    "three-stdlib": "^2.9.1"
   }
 }
