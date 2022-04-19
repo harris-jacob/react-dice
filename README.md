@@ -19,7 +19,7 @@ import { DiceProvider, useDice } from 'react-dice'
 
 const App = (): React.FC => (
   <DiceProvider>
-    /** All other components */
+    {/* All other components */}
     <RollMe />
   </DiceProvider>
 )
