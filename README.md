@@ -13,7 +13,6 @@ Not at all in a working state right now
 Eventual usage should look something like this:
 
 ```tsx
-import React, { Component } from 'react'
 
 import { DiceProvider, useDice } from 'react-dice'
 
