@@ -1,23 +1,31 @@
-import React, { useMemo, useRef, useState } from 'react'
+import React, {
+  PropsWithChildren,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from 'react'
 import { Canvas } from '@react-three/fiber'
 import {
   ConvexPolyhedronProps,
+  Debug,
+  DebugProps,
   Physics,
   Triplet,
-  useConvexPolyhedron,
-  usePlane
+  useConvexPolyhedron
 } from '@react-three/cannon'
 import { DiceType, getDiceDefinition } from '../polyhedron-config'
 import { BufferGeometry, Mesh, PolyhedronGeometry } from 'three'
 import { Geometry } from 'three-stdlib/deprecated/Geometry'
+import { BoundingBox } from './BoundingBox'
 
-// Returns legacy geometry vertices, faces for ConvP
+/** Patched until @react-three/cannon upgrades to react-18 types */
+const DebugPatched = Debug as any as React.FC<PropsWithChildren<DebugProps>>
+
 function toConvexProps(
   bufferGeometry: BufferGeometry
 ): ConvexPolyhedronProps['args'] {
   const geo = new Geometry().fromBufferGeometry(bufferGeometry)
-  // Merge duplicate vertices resulting from glTF export.
-  // Cannon assumes contiguous, closed meshes to work
   geo.mergeVertices()
   return [
     geo.vertices.map((v) => [v.x, v.y, v.z]),
@@ -32,24 +40,6 @@ interface Props {
   rotation: Triplet
 }
 
-export const Plane = (): JSX.Element => {
-  const ref = useRef<Mesh>(null!)
-  usePlane(
-    () => ({
-      type: 'Static',
-      rotation: [-Math.PI / 2, 0, 0],
-      position: [0, -2, 1]
-    }),
-    ref
-  )
-  return (
-    <mesh ref={ref}>
-      <planeBufferGeometry args={[10, 10]} />
-      <shadowMaterial color={'#171717'} />
-    </mesh>
-  )
-}
-
 const Dice = ({ position, rotation, type }: Props): JSX.Element => {
   const ref = useRef<Mesh>(null!)
   const definition = getDiceDefinition(type)
@@ -59,40 +49,49 @@ const Dice = ({ position, rotation, type }: Props): JSX.Element => {
   )
 
   const args = useMemo(() => toConvexProps(geometry), [geometry])
-  useConvexPolyhedron(() => ({ args, mass: 100, position, rotation }), ref)
 
-  // Return the view, these are regular Threejs elements expressed in JSX
+  const [_, api] = useConvexPolyhedron(
+    () => ({ args, mass: 0.1, position, rotation }),
+    ref
+  )
+
+  const velocity = useRef([0, 0, 0])
+  useEffect(() => {
+    api.applyLocalForce([200, 0, -200], [1, 0, 0])
+    const unsub = api.velocity.subscribe((v) => (velocity.current = v))
+
+    return unsub
+  }, [])
+
+  const poly = (
+    <polyhedronGeometry
+      args={[definition.verticies, definition.indices, 2, 0]}
+    />
+  )
+
   return (
-    <mesh rotation={[0, 1, 0]} ref={ref}>
-      <polyhedronGeometry
-        args={[definition.verticies, definition.indices, 1, 0]}
-      />
-      <meshPhysicalMaterial color='rebeccapurple' />
+    <mesh position={position} rotation={rotation} ref={ref}>
+      <meshBasicMaterial color='purple' />
+      {poly}
+      <mesh>
+        <meshBasicMaterial wireframe transparent color='black' />
+        {poly}
+      </mesh>
     </mesh>
   )
 }
 
 const HelloWorld = (): JSX.Element => {
-  const [dicetype, setDiceType] = useState<DiceType>('d20')
-
   return (
-    <div style={{ height: '100%', width: '100%' }}>
-      <button onClick={() => setDiceType('d20')}>D20</button>
-      <button onClick={() => setDiceType('d8')}>D8</button>
-      <button onClick={() => setDiceType('d6')}>D6</button>
-      <Canvas shadows camera={{ fov: 50, position: [-1, 1, 5] }}>
-        <pointLight position={[10, 10, 10]} />
-        <ambientLight />
-        <Physics gravity={[0, -5, 0]}>
-          <Plane />
-          <Dice
-            type={dicetype}
-            rotation={[0.5, 0.4, -1]}
-            position={[0, 10, 0]}
-          />
-        </Physics>
-      </Canvas>
-    </div>
+    <Canvas orthographic camera={{ zoom: 42 }}>
+      <ambientLight />
+      <Physics gravity={[0, 0, -10]}>
+        {/* <DebugPatched color='black' scale={1.1}> */}
+        <BoundingBox width={40} height={20} />
+        <Dice type={'d20'} rotation={[0, 0, 0]} position={[0, 0, -9]} />
+        {/* </DebugPatched> */}
+      </Physics>
+    </Canvas>
   )
 }
 
