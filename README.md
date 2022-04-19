@@ -1,7 +1,8 @@
 # react-dice
 
-<div align="center"><strong>Physics driven, 3d dice rolling in React 🎲</strong></div>
-<div align="center"> Inspired by dnd-beyond. Powered by [react-three-fiber][1] and [use-cannon][2] </div>
+<div align="center"><strong>Physics driven, 3D dice rolling in React 🎲</strong></div>
+<div align="center"> Inspired by dndbeyond. Powered by [react-three-fiber][1] and [use-cannon][2] </div>
+
 
 ## 🚧 Currently Under Contruction 🚧
 
@@ -45,26 +46,26 @@ const RollMe = (): React.FC => {
 
 A brain dump of what i'll be doing.
 
-- Hello world
+- **Hello world**
 
   - [x] Repo boilerplate and setup
   - [x] Basic proof of concept
 
-- P1: Make it work
+- P1: **Make it work**
 
   - [ ] Figure out exact api (opinionated but a little bit configurable, physics, size, shaders etc)
   - [ ] Support all common dice: d4, d6, d8, d10, d12, d20, d100 (in a nice generic way)
   - [ ] Canvas, camera and bounding box should responsively adapt to screen size and changes
   - [ ] Publish first release
 
-- P2: Make it random (Lean on physics not animation)
+- P2: **Make it random (Lean on physics not animation)**
 
   - [ ] Randomise starting orientation
   - [ ] Randomise inital force vector (always directed towards center of screen?)
   - [ ] Noisify force magnitude (around some settable mean value)
   - [ ] Noisy inital torque (to further randomize collisions)
 
-- P3: Make it look cool:
+- P3: **Make it look cool**:
   - [ ] Add actual numbers to dice faces
   - [ ] Add some preset shaders/materials (wood, plastic, metal)
   - [ ] Add examples of custom shaders
