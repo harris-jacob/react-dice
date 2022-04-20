@@ -30,6 +30,8 @@
     "build": "preconstruct build",
     "watch": "preconstruct watch",
     "demo:dev": "yarn workspace demo dev",
+    "demo:build": "yarn workspace demo build",
+    "demo:release": "yarn workspace demo release",
     "prepare": "husky install",
     "postinstall": "preconstruct dev"
   }

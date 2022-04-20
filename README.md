@@ -1,30 +1,73 @@
 # react-dice
 
-> threejs + react-spring based dice components
+<div align="center"><strong>Physics driven, 3d dice rolling in React 🎲</strong></div>
+<div align="center"> Inspired by dnd-beyond. Powered by [react-three-fiber][1] and [use-cannon][2] </div>
 
-[![NPM](https://img.shields.io/npm/v/react-dice.svg)](https://www.npmjs.com/package/react-dice) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+## 🚧 Currently Under Contruction 🚧
 
-## Install
+Not at all in a working state right now
 
-```bash
-npm install --save react-dice
-```
+## Useage
 
-## Usage
+Eventual usage should look something like this:
 
 ```tsx
 import React, { Component } from 'react'
 
-import MyComponent from 'react-dice'
-import 'react-dice/dist/index.css'
+import { DiceProvider, useDice } from 'react-dice'
 
-class Example extends Component {
-  render() {
-    return <MyComponent />
-  }
+const App = (): React.FC => (
+  <DiceProvider>
+    /** All other components */
+    <RollMe />
+  </DiceProvider>
+)
+
+const RollMe = (): React.FC => {
+  const roll = useDice(
+    // specify which dice you're rolling (in this case 3d20s)
+    {d20: 3},
+    (result) => {
+      // do something with result of roll
+    },
+    {
+      // override config values
+      shader: myShader,
+      physics: myPhysics
+    }
+  )
+
+  <button onClick={roll}>Roll Me!</button>
 }
 ```
 
-## License
+## TODO
 
-MIT © [harris-jacob](https://github.com/harris-jacob)
+A brain dump of what i'll be doing.
+
+- Hello world
+
+  - [x] Repo boilerplate and setup
+  - [x] Basic proof of concept
+
+- P1: Make it work
+
+  - [ ] Figure out exact api (opinionated but a little bit configurable, physics, size, shaders etc)
+  - [ ] Support all common dice: d4, d6, d8, d10, d12, d20, d100 (in a nice generic way)
+  - [ ] Canvas, camera and bounding box should responsively adapt to screen size and changes
+  - [ ] Publish first release
+
+- P2: Make it random (Lean on physics not animation)
+
+  - [ ] Randomise starting orientation
+  - [ ] Randomise inital force vector (always directed towards center of screen?)
+  - [ ] Noisify force magnitude (around some settable mean value)
+  - [ ] Noisy inital torque (to further randomize collisions)
+
+- P3: Make it look cool:
+  - [ ] Add actual numbers to dice faces
+  - [ ] Add some preset shaders/materials (wood, plastic, metal)
+  - [ ] Add examples of custom shaders
+
+[1]: https://github.com/pmndrs/react-three-fiber
+[2]: https://github.com/pmndrs/use-cannon
