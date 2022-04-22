@@ -1,28 +1,15 @@
 // TODO for now, my puny brain cannot do this maths in general way.
 // someone please help
 
+import { Dice, DiceType, PolyhedronDefinition } from './types'
+
 const t = (1 + Math.sqrt(5)) / 2
 const r = 1 / t
-
-interface PolyhedronDefinition {
-  verticies: number[]
-  indices: number[]
-}
-
-interface Model {
-  d6: PolyhedronDefinition
-  d8: PolyhedronDefinition
-  d10: PolyhedronDefinition
-  d12: PolyhedronDefinition
-  d20: PolyhedronDefinition
-}
-
-export type DiceType = keyof Model
 
 export const getDiceDefinition = (type: DiceType): PolyhedronDefinition =>
   model[type]
 
-const model: Model = {
+const model: Dice = {
   d6: {
     verticies: [
       -1, -1, -1, 1, -1, -1, 1, 1, -1, -1, 1, -1, -1, -1, 1, 1, -1, 1, 1, 1, 1,
