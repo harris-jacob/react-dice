@@ -1,8 +1,0 @@
-# yarn
-build/
-node_modules/
-dist/
-.yarn/
-.snapshots/
-*.min.js
-.pnp.*
