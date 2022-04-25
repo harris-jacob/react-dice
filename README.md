@@ -6,7 +6,7 @@
 
 ## 🚧 Currently Under Contruction 🚧
 
-Not at all in a working state right now
+Not at all in a working state right now. See current progress [here](https://harris-jacob.github.io/react-dice/)
 
 ## Useage
 
