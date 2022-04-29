@@ -1,7 +1,7 @@
 // TODO for now, my puny brain cannot do this maths in general way.
 // someone please help
 
-import { Dice, DiceType, PolyhedronDefinition } from './types'
+import { Dice, DiceType, PolyhedronDefinition } from '../types'
 
 const t = (1 + Math.sqrt(5)) / 2
 const r = 1 / t

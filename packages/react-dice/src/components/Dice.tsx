@@ -5,24 +5,36 @@ import {
 } from '@react-three/cannon'
 import React, { useEffect } from 'react'
 import { useMemo, useRef } from 'react'
-import { BufferGeometry, Mesh, PolyhedronGeometry } from 'three'
+import { BufferGeometry, Mesh, PolyhedronGeometry, Vector3 } from 'three'
 import { Geometry } from 'three-stdlib/deprecated/Geometry'
-import { getDiceDefinition } from '../polyhedron-config'
+import { getDiceDefinition } from '../lib/polyhedron-config'
 import { DiceType } from '../types'
+import { multiply } from '../lib/vector'
 
 interface Props {
   position: Triplet
   type: DiceType
   rotation: Triplet
+  radius: number
 }
 
-export const Dice = ({ position, rotation, type }: Props): JSX.Element => {
+export const Dice = ({
+  position,
+  rotation,
+  type,
+  radius
+}: Props): JSX.Element => {
   const ref = useRef<Mesh>(null!)
   const definition = getDiceDefinition(type)
   const geometry = new PolyhedronGeometry(
     definition.verticies,
-    definition.indices
+    definition.indices,
+    radius
   )
+
+  const forceDir = new Vector3()
+    .sub(new Vector3(position[0], position[1], position[2]))
+    .normalize()
 
   const args = useMemo(() => toConvexProps(geometry), [geometry])
 
@@ -31,17 +43,14 @@ export const Dice = ({ position, rotation, type }: Props): JSX.Element => {
     ref
   )
 
-  const velocity = useRef([0, 0, 0])
   useEffect(() => {
-    api.applyLocalForce([200, 0, -200], [1, 0, 0])
-    const unsub = api.velocity.subscribe((v) => (velocity.current = v))
-
-    return unsub
+    const force = multiply(forceDir.toArray(), [200, 200, 0])
+    api.applyLocalForce(force, [0, 0, 0])
   }, [])
 
   const poly = (
     <polyhedronGeometry
-      args={[definition.verticies, definition.indices, 2, 0]}
+      args={[definition.verticies, definition.indices, radius, 0]}
     />
   )
 
