@@ -1,7 +1,8 @@
 # react-dice
 
 <div align="center"><strong>Physics driven, 3D dice rolling in React 🎲</strong></div>
-<div align="center"> Inspired by dndbeyond. Powered by [react-three-fiber][1] and [use-cannon][2] </div>
+<div align="center"> Inspired by dndbeyond. Powered by <a href="https://github.com/pmndrs/react-three-fiber">react-three-fiber</a> and 
+  <a href="https://github.com/pmndrs/use-cannon">use-cannon</a> </div>
 
 
 ## 🚧 Currently Under Contruction 🚧
@@ -68,6 +69,3 @@ A brain dump of what i'll be doing.
   - [ ] Add actual numbers to dice faces
   - [ ] Add some preset shaders/materials (wood, plastic, metal)
   - [ ] Add examples of custom shaders
-
-[1]: https://github.com/pmndrs/react-three-fiber
-[2]: https://github.com/pmndrs/use-cannon
