@@ -21,6 +21,7 @@
     "@types/three": "^0.139.0",
     "eslint": "^8.13.0",
     "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-jest-dom": "^4.0.1",
     "gh-pages": "^3.2.3",
     "husky": "^7.0.4",
     "prettier": "^2.6.2",

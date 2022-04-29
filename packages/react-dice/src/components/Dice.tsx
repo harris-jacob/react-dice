@@ -25,28 +25,30 @@ export const Dice = ({
   radius
 }: Props): JSX.Element => {
   const ref = useRef<Mesh>(null!)
-  const definition = getDiceDefinition(type)
-  const geometry = new PolyhedronGeometry(
-    definition.verticies,
-    definition.indices,
-    radius
-  )
 
-  const forceDir = new Vector3()
-    .sub(new Vector3(position[0], position[1], position[2]))
-    .normalize()
+  const definition = useMemo(() => getDiceDefinition(type), [type])
 
-  const args = useMemo(() => toConvexProps(geometry), [geometry])
+  const args = useMemo(() => {
+    const geometry = new PolyhedronGeometry(
+      definition.verticies,
+      definition.indices,
+      radius
+    )
+    return toConvexProps(geometry)
+  }, [radius, definition])
 
-  const [_, api] = useConvexPolyhedron(
+  const [, api] = useConvexPolyhedron(
     () => ({ args, mass: 0.1, position, rotation }),
     ref
   )
 
   useEffect(() => {
+    const forceDir = new Vector3()
+      .sub(new Vector3(position[0], position[1], position[2]))
+      .normalize()
     const force = multiply(forceDir.toArray(), [200, 200, 0])
     api.applyLocalForce(force, [0, 0, 0])
-  }, [])
+  }, [position, api])
 
   const poly = (
     <polyhedronGeometry

@@ -33,7 +33,6 @@ export const DiceProvider = ({ children }: { children: React.ReactNode }) => {
           <DebugPatched color='black' scale={1.2}>
             <BoundingBox width={40} height={20} />
             {state.rolls.map((v) => {
-              console.log(v.position)
               return (
                 <Dice
                   radius={2}
