@@ -39,6 +39,10 @@
     "demo:release": "yarn demo:build && gh-pages -d demo/dist/",
     "prepare": "husky install",
     "postinstall": "preconstruct dev",
-    "lint": "eslint packages/*/src"
+    "lint": "eslint --max-warnings=0  packages/*/src demo/src",
+    "lint:fix": "yarn lint --fix",
+    "pretty": "prettier .prettierrc 'packages/react-dice/src/' 'demo/src'",
+    "pretty:check": "yarn pretty --check",
+    "pretty:fix": "yarn pretty --write"
   }
 }
