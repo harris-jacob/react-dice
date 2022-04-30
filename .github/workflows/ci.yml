@@ -125,4 +125,4 @@ jobs:
 
       - name: Build
         if: steps.build-demo-cache.outputs.cache-hit != 'true'
-        run: yarn build
+        run: yarn demo:build
