@@ -39,7 +39,7 @@ jobs:
 
       - name: Install deps
         if: steps.yarn-cache-dir-cache.outputs.cache-hit != 'true'
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Check lint
         run: yarn lint
@@ -70,6 +70,9 @@ jobs:
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install deps
+        run: yarn --immutable-cache --immutable
 
       - name: Setup build cache
         uses: actions/cache@v2
@@ -107,6 +110,9 @@ jobs:
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install deps
+        run: yarn --immutable-cache --immutable
 
       - name: Setup build cache
         uses: actions/cache@v2
