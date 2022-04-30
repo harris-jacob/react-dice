@@ -38,7 +38,7 @@ const RollMe = (): React.FC => {
     }
   )
 
-  <button onClick={roll}>Roll Me!</button>
+  return <button onClick={roll}>Roll Me!</button>
 }
 ```
 
@@ -60,8 +60,8 @@ A brain dump of what i'll be doing.
 
 - P2: **Make it random (Lean on physics not animation)**
 
-  - [ ] Randomise starting orientation
-  - [ ] Randomise inital force vector (always directed towards center of screen?)
+  - [x] Randomise starting orientation
+  - [x] Randomise inital force vector (always directed towards center of screen?)
   - [ ] Noisify force magnitude (around some settable mean value)
   - [ ] Noisy inital torque (to further randomize collisions)
 
