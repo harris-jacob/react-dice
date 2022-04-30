@@ -50,4 +50,10 @@ jobs:
             ${{ runner.os }}-build-
 
       - name: Build
-        run: yarn demo:release
+        run: yarn demo:build
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        with:
+          branch: gh-pages # The branch the action should deploy to.
+          folder: demo/dist
