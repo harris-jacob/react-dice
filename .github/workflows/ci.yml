@@ -6,16 +6,15 @@ on:
       - 'packages/**'
       - 'package.json'
       - 'yarn.lock'
-      - '!demo/**'
+      - 'demo/**'
       - '!**.md'
       - '!.changeset/**'
 env:
   CI: true
 jobs:
-  build:
+  check:
     name: Build, lint, and test
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -24,9 +23,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '16'
-
-      - name: Install yarn
-        run: npm i yarn@latest -g
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
@@ -47,15 +43,50 @@ jobs:
       - name: Check pretty
         run: yarn pretty:check
 
+  build_packages:
+    name: Build packages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Use Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
       - name: Setup build cache
         uses: actions/cache@v2
-        id: build-cache
+        id: build-packages-cache
         with:
           path: packages/**/dist
           key: ${{ runner.os }}-build-${{ hashFiles('packages/') }}
           restore-keys: |
             ${{ runner.os }}-build-
 
-      - name: Build without cache
-        if: steps.build-cache.outputs.cache-hit != 'true'
+      - name: Build
+        if: steps.build-packages-cache.outputs.cache-hit != 'true'
+        run: yarn build
+
+  build_demo:
+    name: Build demo
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Use Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: Setup build cache
+        uses: actions/cache@v2
+        id: build-demo-cache
+        with:
+          path: demo/dist
+          key: ${{ runner.os }}-build-${{ hashFiles('demo/') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+
+      - name: Build
+        if: steps.build-demo-cache.outputs.cache-hit != 'true'
         run: yarn build
