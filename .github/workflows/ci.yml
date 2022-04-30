@@ -75,7 +75,7 @@ jobs:
         run: yarn --immutable-cache --immutable
 
       - name: Setup build cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: build-packages-cache
         with:
           path: packages/**/dist
@@ -115,7 +115,7 @@ jobs:
         run: yarn --immutable-cache --immutable
 
       - name: Setup build cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: build-demo-cache
         with:
           path: demo/dist
