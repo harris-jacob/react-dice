@@ -13,7 +13,7 @@ env:
   CI: true
 jobs:
   check:
-    name: Build, lint, and test
+    name: format, lint, and test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -45,6 +45,7 @@ jobs:
 
   build_packages:
     name: Build packages
+    needs: check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -69,6 +70,7 @@ jobs:
 
   build_demo:
     name: Build demo
+    needs: check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
