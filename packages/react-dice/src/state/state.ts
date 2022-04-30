@@ -2,6 +2,7 @@ import { Triplet } from '@react-three/cannon'
 import { DiceType } from '../types'
 import { queueRoll, QueueRollPayload } from './queue-roll'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type ID<T> = string
 
 interface Roll {
