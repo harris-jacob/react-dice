@@ -4,6 +4,7 @@ export interface PolyhedronDefinition {
 }
 
 export interface Dice {
+  d4: PolyhedronDefinition
   d6: PolyhedronDefinition
   d8: PolyhedronDefinition
   d10: PolyhedronDefinition

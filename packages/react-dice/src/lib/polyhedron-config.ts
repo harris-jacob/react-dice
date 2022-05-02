@@ -6,10 +6,16 @@ import { Dice, DiceType, PolyhedronDefinition } from '../types'
 const t = (1 + Math.sqrt(5)) / 2
 const r = 1 / t
 
+const a = 1 / Math.sqrt(2)
+
 export const getDiceDefinition = (type: DiceType): PolyhedronDefinition =>
   model[type]
 
 const model: Dice = {
+  d4: {
+    verticies: [1, 0, -a, -1, 0, -a, 0, 1, a, 0, -1, a],
+    indices: [0, 1, 3, 1, 2, 3, 0, 3, 2, 0, 2, 1]
+  },
   d6: {
     verticies: [
       -1, -1, -1, 1, -1, -1, 1, 1, -1, -1, 1, -1, -1, -1, 1, 1, -1, 1, 1, 1, 1,

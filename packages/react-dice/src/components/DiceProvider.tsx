@@ -1,7 +1,9 @@
-import { Debug, DebugProps, Physics } from '@react-three/cannon'
+import { Physics } from '@react-three/cannon'
+import { OrbitControls } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
-import React, { PropsWithChildren, useCallback, useReducer } from 'react'
+import React, { useCallback, useReducer } from 'react'
 import { DiceContext } from '../DiceContext'
+import { defaultConfig } from '../lib/dice-config'
 import { reduce, RootState } from '../state/state'
 import { DiceType } from '../types'
 import { BoundingBox } from './BoundingBox'
@@ -9,11 +11,8 @@ import { Dice } from './Dice'
 
 const initialState: RootState = {
   rolls: [],
-  scene: { xmax: 40, zmax: 20, y: -8 }
+  scene: { xmax: 40, zmax: 20, y: 2 }
 }
-
-/** Patched until @react-three/cannon upgrades to react-18 types */
-const DebugPatched = Debug as any as React.FC<PropsWithChildren<DebugProps>>
 
 export const DiceProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(reduce, initialState)
@@ -27,23 +26,32 @@ export const DiceProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <DiceContext.Provider value={{ roll }}>
-      <Canvas orthographic camera={{ zoom: 42 }}>
+      <Canvas shadows orthographic camera={{ zoom: 35, position: [0, 0, 10] }}>
         <ambientLight />
+        <spotLight
+          intensity={1}
+          position={[0, 0, 50]}
+          angle={0.5}
+          castShadow
+          penumbra={0.5}
+        />
         <Physics gravity={[0, 0, -10]}>
-          <DebugPatched color='black' scale={1.2}>
-            <BoundingBox width={40} height={20} />
-            {state.rolls.map((v) => {
-              return (
-                <Dice
-                  radius={2}
-                  key={v.id}
-                  type={v.type}
-                  rotation={[0, 0, 0]}
-                  position={v.position}
-                />
-              )
-            })}
-          </DebugPatched>
+          {/* <Debug color='black' scale={1.2}> */}
+          <BoundingBox width={40} height={20} />
+          {state.rolls.map((v) => {
+            return (
+              <Dice
+                radius={2}
+                key={v.id}
+                type={v.type}
+                rotation={[0, 0, 0]}
+                position={v.position}
+                config={defaultConfig}
+              />
+            )
+          })}
+          <OrbitControls />
+          {/* </Debug> */}
         </Physics>
       </Canvas>
       {children}

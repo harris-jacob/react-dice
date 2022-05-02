@@ -1,32 +1,24 @@
-import {
-  ConvexPolyhedronProps,
-  Triplet,
-  useConvexPolyhedron
-} from '@react-three/cannon'
-import React, { useEffect } from 'react'
-import { useMemo, useRef } from 'react'
+import { ConvexPolyhedronProps } from '@react-three/cannon'
+import { useConvexPolyhedron } from '@react-three/cannon'
+import React, { useEffect, useMemo } from 'react'
+import { useRef } from 'react'
 import { BufferGeometry, Mesh, PolyhedronGeometry, Vector3 } from 'three'
-import { Geometry } from 'three-stdlib/deprecated/Geometry'
+import { Geometry } from 'three-stdlib'
 import { getDiceDefinition } from '../lib/polyhedron-config'
-import { DiceType } from '../types'
 import { multiply } from '../lib/vector'
-
-interface Props {
-  position: Triplet
-  type: DiceType
-  rotation: Triplet
-  radius: number
-}
+import { DeltrahedronDiceGeometry } from './DeltahedronDiceGeometry'
+import { DiceProps } from './props'
 
 export const Dice = ({
+  type,
+  radius,
   position,
   rotation,
-  type,
-  radius
-}: Props): JSX.Element => {
+  ...rest
+}: DiceProps): JSX.Element => {
   const ref = useRef<Mesh>(null!)
 
-  const definition = useMemo(() => getDiceDefinition(type), [type])
+  const definition = getDiceDefinition(type)
 
   const args = useMemo(() => {
     const geometry = new PolyhedronGeometry(
@@ -34,6 +26,7 @@ export const Dice = ({
       definition.indices,
       radius
     )
+
     return toConvexProps(geometry)
   }, [radius, definition])
 
@@ -50,22 +43,31 @@ export const Dice = ({
     api.applyLocalForce(force, [0, 0, 0])
   }, [position, api])
 
-  const poly = (
-    <polyhedronGeometry
-      args={[definition.verticies, definition.indices, radius, 0]}
-    />
-  )
+  switch (type) {
+    case 'd4':
+    case 'd8':
+    case 'd20':
+      return (
+        <DeltrahedronDiceGeometry
+          ref={ref}
+          type={type}
+          position={position}
+          rotation={rotation}
+          radius={radius}
+          {...rest}
+        />
+      )
 
-  return (
-    <mesh position={position} rotation={rotation} ref={ref}>
-      <meshBasicMaterial color='purple' />
-      {poly}
-      <mesh>
-        <meshBasicMaterial wireframe transparent color='black' />
-        {poly}
-      </mesh>
-    </mesh>
-  )
+    case 'd10':
+      throw new Error('D10 not implememented')
+    case 'd12':
+      throw new Error('D12 not implememented')
+    case 'd6':
+      throw new Error('D6 not implememented')
+
+    default:
+      throw new Error('Unknown dice type')
+  }
 }
 
 function toConvexProps(
