@@ -14,11 +14,17 @@ interface Props {
 export const BoundingBox = ({ width, height }: Props): JSX.Element => {
   return (
     <>
-      <Plane position={[0, 0, -10]} rotation={[0, 0, 0]} />
-      <Plane position={[width / 2, 0, -10]} rotation={[0, -Math.PI / 2, 0]} />
-      <Plane position={[-width / 2, 0, -10]} rotation={[0, Math.PI / 2, 0]} />
-      <Plane position={[0, height / 2, -10]} rotation={[Math.PI / 2, 0, 0]} />
-      <Plane position={[0, -height / 2, -10]} rotation={[-Math.PI / 2, 0, 0]} />
+      <Plane
+        height={height}
+        width={width}
+        position={[0, 0, 0]}
+        rotation={[0, 0, 0]}
+        receiveShadow
+      />
+      <Plane position={[width / 2, 0, 0]} rotation={[0, -Math.PI / 2, 0]} />
+      <Plane position={[-width / 2, 0, 0]} rotation={[0, Math.PI / 2, 0]} />
+      <Plane position={[0, height / 2, 0]} rotation={[Math.PI / 2, 0, 0]} />
+      <Plane position={[0, -height / 2, 0]} rotation={[-Math.PI / 2, 0, 0]} />
     </>
   )
 }
@@ -26,9 +32,18 @@ export const BoundingBox = ({ width, height }: Props): JSX.Element => {
 interface PlaneProps {
   position: Triplet
   rotation: Triplet
+  receiveShadow?: boolean
+  width?: number
+  height?: number
 }
 
-export const Plane = ({ position, rotation }: PlaneProps): JSX.Element => {
+export const Plane = ({
+  position,
+  rotation,
+  receiveShadow = false,
+  width = 10,
+  height = 10
+}: PlaneProps): JSX.Element => {
   const ref = useRef<Mesh>(null!)
   usePlane(
     () => ({
@@ -39,10 +54,15 @@ export const Plane = ({ position, rotation }: PlaneProps): JSX.Element => {
     ref
   )
   return (
-    <mesh ref={ref} position={position} rotation={rotation}>
-      <planeBufferGeometry args={[10, 10]} />
-      {/* <meshPhysicalMaterial color='blue' /> */}
-      <shadowMaterial color={'#171717'} />
+    <mesh
+      receiveShadow={receiveShadow}
+      ref={ref}
+      position={position}
+      rotation={rotation}
+    >
+      <planeBufferGeometry args={[width, height]} />
+      {/* <meshBasicMaterial color={'black'} /> */}
+      <shadowMaterial opacity={0.2} color={'#171717'} />
     </mesh>
   )
 }
