@@ -1,4 +1,4 @@
-import { Debug, DebugProps, Physics } from '@react-three/cannon'
+import { Physics } from '@react-three/cannon'
 import { OrbitControls } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import React, { useCallback, useReducer } from 'react'

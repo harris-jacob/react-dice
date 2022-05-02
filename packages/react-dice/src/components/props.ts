@@ -1,6 +1,4 @@
 import { Triplet } from '@react-three/cannon'
-import { ReactThreeFiber } from '@react-three/fiber'
-import React from 'react'
 import { DiceConfig } from '../lib/dice-config'
 import { DiceType } from '../types'
 
