@@ -45,7 +45,7 @@ export const Plane = ({
   height = 10
 }: PlaneProps): JSX.Element => {
   const ref = useRef<Mesh>(null!)
-  const [_, api] = usePlane(
+  const [, api] = usePlane(
     () => ({
       type: 'Dynamic',
       position,
