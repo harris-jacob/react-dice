@@ -2195,10 +2195,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/three@npm:0.139.0":
-  version: 0.139.0
-  resolution: "@types/three@npm:0.139.0"
-  checksum: 811ce2dd6cfeaa8b051699b6e57f5696b30cb4d33697675c9eee500e377cdbdc872dc6932dfc094c3ae61acfb895d089043a6e5c389d563c516d99ebfef8c130
+"@types/three@npm:0.140.0":
+  version: 0.140.0
+  resolution: "@types/three@npm:0.140.0"
+  checksum: 05693787002f0e879e76a09cfd474d4fd100779f00c048e380d146783adaff539846988625b0f9117451bf2790637a236c68111f7f3e160f5227373a037381ba
   languageName: node
   linkType: hard
 
@@ -5992,7 +5992,7 @@ __metadata:
     "@babel/preset-typescript": 7.16.7
     "@preconstruct/cli": 2.1.5
     "@types/react": 18.0.8
-    "@types/three": 0.139.0
+    "@types/three": 0.140.0
     eslint: 8.14.0
     eslint-config-react-app: 7.0.1
     eslint-plugin-jest-dom: 4.0.1
