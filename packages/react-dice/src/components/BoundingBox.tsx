@@ -1,5 +1,5 @@
 import { Triplet, usePlane } from '@react-three/cannon'
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Mesh } from 'three'
 
 interface Props {
@@ -45,18 +45,21 @@ export const Plane = ({
   height = 10
 }: PlaneProps): JSX.Element => {
   const ref = useRef<Mesh>(null!)
-  usePlane(
+  const [_, api] = usePlane(
     () => ({
-      type: 'Static',
+      type: 'Dynamic',
       position,
       rotation
     }),
     ref
   )
+
+  useEffect(() => api.position.set(...position), [position, api.position])
+
   return (
     <mesh
-      receiveShadow={receiveShadow}
       ref={ref}
+      receiveShadow={receiveShadow}
       position={position}
       rotation={rotation}
     >

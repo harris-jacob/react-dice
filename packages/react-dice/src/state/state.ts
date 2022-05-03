@@ -24,14 +24,14 @@ interface SceneConfig {
 export type RootState = { rolls: Array<Roll>; scene: SceneConfig }
 
 export type RootAction =
-  | { type: 'INIT'; payload: SceneConfig }
+  | { type: 'SET_SCREEN_SIZE'; payload: SceneConfig }
   | { type: 'QUEUE_ROLL'; payload: QueueRollPayload }
   | { type: 'REPORT_RESULT'; payload: { id: ID<Roll>; result: number } }
   | { type: 'REMOVE_ROLL'; payload: ID<Roll> }
 
 export const reduce = (state: RootState, action: RootAction): RootState => {
   switch (action.type) {
-    case 'INIT':
+    case 'SET_SCREEN_SIZE':
       return { ...state, scene: action.payload }
     case 'QUEUE_ROLL':
       return queueRoll(state, action.payload)
