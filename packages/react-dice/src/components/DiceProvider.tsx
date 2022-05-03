@@ -1,8 +1,9 @@
 import { Physics } from '@react-three/cannon'
 import { OrbitControls } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
-import React, { useCallback, useReducer } from 'react'
+import React, { useCallback, useEffect, useReducer } from 'react'
 import { DiceContext } from '../DiceContext'
+import { useMeasure } from '../hooks/useMeasure'
 import { defaultConfig } from '../lib/dice-config'
 import { reduce, RootState } from '../state/state'
 import { DiceType } from '../types'
@@ -16,6 +17,19 @@ const initialState: RootState = {
 
 export const DiceProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(reduce, initialState)
+
+  const screenSize = useMeasure()
+
+  useEffect(() => {
+    dispatch({
+      type: 'SET_SCREEN_SIZE',
+      payload: {
+        xmax: screenSize.width / 35,
+        zmax: screenSize.height / 35,
+        y: 2
+      }
+    })
+  }, [screenSize])
 
   const roll = useCallback((type: DiceType) => {
     dispatch({
@@ -36,8 +50,10 @@ export const DiceProvider = ({ children }: { children: React.ReactNode }) => {
           penumbra={0.5}
         />
         <Physics gravity={[0, 0, -10]}>
-          {/* <Debug color='black' scale={1.2}> */}
-          <BoundingBox width={40} height={20} />
+          <BoundingBox
+            width={screenSize.width / 35}
+            height={screenSize.height / 35}
+          />
           {state.rolls.map((v) => {
             return (
               <Dice
@@ -51,7 +67,6 @@ export const DiceProvider = ({ children }: { children: React.ReactNode }) => {
             )
           })}
           <OrbitControls />
-          {/* </Debug> */}
         </Physics>
       </Canvas>
       {children}

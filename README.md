@@ -53,7 +53,7 @@ A brain dump of what i'll be doing.
 
   - [ ] Figure out exact api (opinionated but a little bit configurable, physics, size, shaders etc)
   - [ ] Support all common dice: d4, d6, d8, d10, d12, d20, d100
-  - [ ] Canvas, camera and bounding box should responsively adapt to screen size and changes
+  - [x] Canvas, camera and bounding box should responsively adapt to screen size and changes
   - [ ] Publish first release
 
 - P2: **Make it random (Lean on physics not animation)**
@@ -64,9 +64,15 @@ A brain dump of what i'll be doing.
   - [ ] Noisy inital torque (to further randomize collisions)
 
 - P3: **Make it look cool**:
+
   - [x] Add actual numbers to dice faces (deltahedron)
   - [ ] Add numbers to non-deltahedra
   - [ ] Make number patterns match real dice
   - [ ] Add some preset shaders/materials (wood, plastic, metal)
   - [ ] Add examples of custom shaders
   - [ ] Add examples of custom materials using lamina
+
+- **Tech debt**
+  - [ ] perhaps use zustand for state managment?
+  - [ ] debounce/throttle resizes
+  - [ ] general cleanup/reorg of code
