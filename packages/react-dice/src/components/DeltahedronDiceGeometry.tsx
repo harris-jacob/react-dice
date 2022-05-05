@@ -18,7 +18,7 @@ export const DeltrahedronDiceGeometry = forwardRef<Mesh, DiceGeometryProps>(
 
     const poly = (
       <polyhedronGeometry
-        args={[definition.verticies, definition.indices, radius, 0]}
+        args={[definition.vertices, definition.indices, radius, 0]}
       />
     )
     return (
@@ -27,7 +27,7 @@ export const DeltrahedronDiceGeometry = forwardRef<Mesh, DiceGeometryProps>(
         <meshPhysicalMaterial
           color={config.color}
           polygonOffset
-          polygonOffsetFactor={0.1}
+          polygonOffsetFactor={1}
           envMapIntensity={0.4}
           clearcoat={0.8}
           clearcoatRoughness={0}
@@ -35,7 +35,7 @@ export const DeltrahedronDiceGeometry = forwardRef<Mesh, DiceGeometryProps>(
           metalness={0}
         />
         {createText(
-          definition.verticies,
+          definition.vertices,
           definition.indices,
           radius,
           config.textConfig
@@ -74,6 +74,7 @@ function createText(
     matrix.decompose(position, rotation, new Vector3())
     textElems.push(
       <Text
+        depthOffset={-1}
         key={i}
         matrix={matrix}
         quaternion={rotation}

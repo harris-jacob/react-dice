@@ -17,7 +17,7 @@ export const BoundingBox = ({ width, height }: Props): JSX.Element => {
       <Plane
         height={height}
         width={width}
-        position={[0, 0, 0]}
+        position={[0, 0, -20]}
         rotation={[0, 0, 0]}
         receiveShadow
       />

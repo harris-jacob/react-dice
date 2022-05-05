@@ -1,5 +1,5 @@
 export interface PolyhedronDefinition {
-  verticies: number[]
+  vertices: number[]
   indices: number[]
 }
 

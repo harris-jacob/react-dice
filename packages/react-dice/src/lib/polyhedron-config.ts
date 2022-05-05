@@ -13,11 +13,11 @@ export const getDiceDefinition = (type: DiceType): PolyhedronDefinition =>
 
 const model: Dice = {
   d4: {
-    verticies: [1, 0, -a, -1, 0, -a, 0, 1, a, 0, -1, a],
+    vertices: [1, 0, -a, -1, 0, -a, 0, 1, a, 0, -1, a],
     indices: [0, 1, 3, 1, 2, 3, 0, 3, 2, 0, 2, 1]
   },
   d6: {
-    verticies: [
+    vertices: [
       -1, -1, -1, 1, -1, -1, 1, 1, -1, -1, 1, -1, -1, -1, 1, 1, -1, 1, 1, 1, 1,
       -1, 1, 1
     ],
@@ -27,17 +27,17 @@ const model: Dice = {
     ]
   },
   d8: {
-    verticies: [1, 0, 0, -1, 0, 0, 0, 1, 0, 0, -1, 0, 0, 0, 1, 0, 0, -1],
+    vertices: [1, 0, 0, -1, 0, 0, 0, 1, 0, 0, -1, 0, 0, 0, 1, 0, 0, -1],
     indices: [
       0, 2, 4, 0, 4, 3, 0, 3, 5, 0, 5, 2, 1, 2, 5, 1, 5, 3, 1, 3, 4, 1, 4, 2
     ]
   },
   d10: {
-    verticies: [],
+    vertices: [],
     indices: []
   },
   d12: {
-    verticies: [
+    vertices: [
       // (±1, ±1, ±1)
       -1,
       -1,
@@ -116,7 +116,7 @@ const model: Dice = {
     ]
   },
   d20: {
-    verticies: [
+    vertices: [
       -1,
       t,
       0,
