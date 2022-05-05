@@ -12,8 +12,10 @@ import { Dice } from './Dice'
 
 const initialState: RootState = {
   rolls: [],
-  scene: { xmax: 40, zmax: 20, y: 2 }
+  scene: { xmax: 40, zmax: 20, y: -17 }
 }
+
+const ZOOM = 40
 
 export const DiceProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(reduce, initialState)
@@ -24,9 +26,9 @@ export const DiceProvider = ({ children }: { children: React.ReactNode }) => {
     dispatch({
       type: 'SET_SCREEN_SIZE',
       payload: {
-        xmax: screenSize.width / 35,
-        zmax: screenSize.height / 35,
-        y: 2
+        xmax: screenSize.width / ZOOM,
+        zmax: screenSize.height / ZOOM,
+        y: -17
       }
     })
   }, [screenSize])
@@ -40,7 +42,7 @@ export const DiceProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <DiceContext.Provider value={{ roll }}>
-      <Canvas shadows orthographic camera={{ zoom: 35, position: [0, 0, 10] }}>
+      <Canvas orthographic camera={{ zoom: ZOOM, near: 1, far: 1000 }}>
         <ambientLight />
         <spotLight
           intensity={1}
@@ -51,8 +53,8 @@ export const DiceProvider = ({ children }: { children: React.ReactNode }) => {
         />
         <Physics gravity={[0, 0, -10]}>
           <BoundingBox
-            width={screenSize.width / 35}
-            height={screenSize.height / 35}
+            width={screenSize.width / ZOOM}
+            height={screenSize.height / ZOOM}
           />
           {state.rolls.map((v) => {
             return (
