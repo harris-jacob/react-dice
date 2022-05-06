@@ -9,6 +9,7 @@ import { reduce, RootState } from '../state/state'
 import { DiceType } from '../types'
 import { BoundingBox } from './BoundingBox'
 import { Dice } from './Dice'
+import { useTransition } from '@react-spring/three'
 
 const initialState: RootState = {
   rolls: [],
@@ -40,6 +41,12 @@ export const DiceProvider = ({ children }: { children: React.ReactNode }) => {
     })
   }, [])
 
+  const transition = useTransition(state.rolls, {
+    from: { scale: 1 },
+    enter: { scale: 1 },
+    leave: { scale: 0 }
+  })
+
   return (
     <DiceContext.Provider value={{ roll }}>
       <Canvas orthographic camera={{ zoom: ZOOM, near: 1, far: 1000 }}>
@@ -56,19 +63,18 @@ export const DiceProvider = ({ children }: { children: React.ReactNode }) => {
             width={screenSize.width / ZOOM}
             height={screenSize.height / ZOOM}
           />
-          {state.rolls.map((v) => {
-            return (
-              <Dice
-                onStop={() => dispatch({ type: 'REMOVE_ROLL', payload: v.id })}
-                radius={2}
-                key={v.id}
-                type={v.type}
-                rotation={[0, 0, 0]}
-                position={v.position}
-                config={defaultConfig}
-              />
-            )
-          })}
+          {transition(({ scale }, v) => (
+            <Dice
+              scale={scale}
+              onStop={() => dispatch({ type: 'REMOVE_ROLL', payload: v.id })}
+              radius={2}
+              key={v.id}
+              type={v.type}
+              rotation={[0, 0, 0]}
+              position={v.position}
+              config={defaultConfig}
+            />
+          ))}
           <OrbitControls />
         </Physics>
       </Canvas>

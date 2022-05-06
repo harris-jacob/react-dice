@@ -17,6 +17,7 @@ export const Dice = ({
   position,
   rotation,
   onStop,
+  scale,
   ...rest
 }: DiceProps): JSX.Element => {
   const ref = useRef<Mesh>(null!)
@@ -71,6 +72,7 @@ export const Dice = ({
     case 'd20':
       return (
         <DeltrahedronDiceGeometry
+          scale={scale}
           ref={ref}
           type={type}
           position={position}

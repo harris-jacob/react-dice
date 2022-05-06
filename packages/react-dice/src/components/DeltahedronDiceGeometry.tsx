@@ -5,6 +5,7 @@ import { Text } from '@react-three/drei'
 import { DiceGeometryProps } from './props'
 import { getDiceDefinition } from '../lib/polyhedron-config'
 import { TextConfig } from '../lib/dice-config'
+import { animated } from '@react-spring/three'
 
 /**
  * A deltahedron is a polyhedron whose faces are all equalateral triangles
@@ -13,7 +14,7 @@ import { TextConfig } from '../lib/dice-config'
  * of each triangle buffer)
  */
 export const DeltrahedronDiceGeometry = forwardRef<Mesh, DiceGeometryProps>(
-  ({ type, position, rotation, radius, config }, ref) => {
+  ({ type, position, rotation, radius, config, scale }, ref) => {
     const definition = useMemo(() => getDiceDefinition(type), [type])
 
     const poly = (
@@ -22,7 +23,13 @@ export const DeltrahedronDiceGeometry = forwardRef<Mesh, DiceGeometryProps>(
       />
     )
     return (
-      <mesh castShadow position={position} rotation={rotation} ref={ref}>
+      <animated.mesh
+        castShadow
+        rotation={rotation}
+        position={position}
+        scale={scale}
+        ref={ref}
+      >
         (
         <meshPhysicalMaterial
           color={config.color}
@@ -41,7 +48,7 @@ export const DeltrahedronDiceGeometry = forwardRef<Mesh, DiceGeometryProps>(
           config.textConfig
         )}
         {poly}
-      </mesh>
+      </animated.mesh>
     )
   }
 )
