@@ -35,7 +35,7 @@ export const Dice = ({
   }, [radius, definition])
 
   const [, api] = useConvexPolyhedron(
-    () => ({ args, mass: 0.1, position, rotation }),
+    () => ({ args, mass: 1.5, position, rotation }),
     ref
   )
 
@@ -43,8 +43,9 @@ export const Dice = ({
     const forceDir = new Vector3()
       .sub(new Vector3(position[0], position[1], position[2]))
       .normalize()
-    const force = multiply(forceDir.toArray(), [200, 200, 0])
+    const force = multiply(forceDir.toArray(), [5000, 5000, 0])
     api.applyLocalForce(force, [0, 0, 0])
+    api.applyTorque([1000, 1000, 0])
   }, [position, api])
 
   useEffect(() => {
