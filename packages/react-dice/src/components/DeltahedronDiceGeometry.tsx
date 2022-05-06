@@ -18,7 +18,7 @@ export const DeltrahedronDiceGeometry = forwardRef<Mesh, DiceGeometryProps>(
 
     const poly = (
       <polyhedronGeometry
-        args={[definition.verticies, definition.indices, radius, 0]}
+        args={[definition.vertices, definition.indices, radius, 0]}
       />
     )
     return (
@@ -35,7 +35,7 @@ export const DeltrahedronDiceGeometry = forwardRef<Mesh, DiceGeometryProps>(
           metalness={0}
         />
         {createText(
-          definition.verticies,
+          definition.vertices,
           definition.indices,
           radius,
           config.textConfig

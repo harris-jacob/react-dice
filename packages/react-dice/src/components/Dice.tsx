@@ -3,7 +3,7 @@ import { useConvexPolyhedron } from '@react-three/cannon'
 import React, { useEffect, useMemo } from 'react'
 import { useRef } from 'react'
 import { BufferGeometry, Mesh, PolyhedronGeometry, Vector3 } from 'three'
-import { Geometry } from 'three-stdlib'
+import { Geometry } from 'three-stdlib/deprecated/Geometry'
 import { getDiceDefinition } from '../lib/polyhedron-config'
 import { multiply } from '../lib/vector'
 import { DeltrahedronDiceGeometry } from './DeltahedronDiceGeometry'
@@ -26,7 +26,7 @@ export const Dice = ({
 
   const args = useMemo(() => {
     const geometry = new PolyhedronGeometry(
-      definition.verticies,
+      definition.vertices,
       definition.indices,
       radius
     )
