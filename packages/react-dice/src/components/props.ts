@@ -2,7 +2,7 @@ import { Triplet } from '@react-three/cannon'
 import { DiceConfig } from '../lib/dice-config'
 import { DiceType } from '../types'
 
-export interface DiceProps {
+export interface BaseProps {
   position: Triplet
   type: DiceType
   rotation: Triplet
@@ -10,4 +10,8 @@ export interface DiceProps {
   config: DiceConfig
 }
 
-export interface DiceGeometryProps extends DiceProps {}
+export interface DiceProps extends BaseProps {
+  onStop: () => void
+}
+
+export interface DiceGeometryProps extends BaseProps {}

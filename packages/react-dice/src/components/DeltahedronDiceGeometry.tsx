@@ -27,7 +27,7 @@ export const DeltrahedronDiceGeometry = forwardRef<Mesh, DiceGeometryProps>(
         <meshPhysicalMaterial
           color={config.color}
           polygonOffset
-          polygonOffsetFactor={0.1}
+          polygonOffsetFactor={10}
           envMapIntensity={0.4}
           clearcoat={0.8}
           clearcoatRoughness={0}

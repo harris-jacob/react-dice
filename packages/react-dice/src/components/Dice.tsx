@@ -9,14 +9,18 @@ import { multiply } from '../lib/vector'
 import { DeltrahedronDiceGeometry } from './DeltahedronDiceGeometry'
 import { DiceProps } from './props'
 
+const VELOCITY_THRESHOLD = 0.05
+
 export const Dice = ({
   type,
   radius,
   position,
   rotation,
+  onStop,
   ...rest
 }: DiceProps): JSX.Element => {
   const ref = useRef<Mesh>(null!)
+  const onStopRef = useRef<() => void>(onStop)
 
   const definition = getDiceDefinition(type)
 
@@ -42,6 +46,23 @@ export const Dice = ({
     const force = multiply(forceDir.toArray(), [200, 200, 0])
     api.applyLocalForce(force, [0, 0, 0])
   }, [position, api])
+
+  useEffect(() => {
+    let timeout: NodeJS.Timeout
+    const unsub = api.velocity.subscribe((velocity) => {
+      if (
+        velocity.filter((v) => Math.abs(v) > VELOCITY_THRESHOLD).length === 0
+      ) {
+        unsub()
+        timeout = setTimeout(onStopRef.current, 5000)
+      }
+    })
+
+    return () => {
+      clearTimeout(timeout)
+      unsub()
+    }
+  }, [api])
 
   switch (type) {
     case 'd4':

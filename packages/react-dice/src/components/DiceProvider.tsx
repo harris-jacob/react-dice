@@ -40,6 +40,8 @@ export const DiceProvider = ({ children }: { children: React.ReactNode }) => {
     })
   }, [])
 
+  console.log(state.rolls)
+
   return (
     <DiceContext.Provider value={{ roll }}>
       <Canvas orthographic camera={{ zoom: ZOOM, near: 1, far: 1000 }}>
@@ -59,6 +61,7 @@ export const DiceProvider = ({ children }: { children: React.ReactNode }) => {
           {state.rolls.map((v) => {
             return (
               <Dice
+                onStop={() => dispatch({ type: 'REMOVE_ROLL', payload: v.id })}
                 radius={2}
                 key={v.id}
                 type={v.type}
