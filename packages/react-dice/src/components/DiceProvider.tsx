@@ -63,21 +63,18 @@ export const DiceProvider = ({ children }: { children: React.ReactNode }) => {
             width={screenSize.width / ZOOM}
             height={screenSize.height / ZOOM}
           />
-          {transition(({ scale }, v) => {
-            console.log(v)
-            return (
-              <Dice
-                scale={scale}
-                onStop={() => dispatch({ type: 'REMOVE_ROLL', payload: v.id })}
-                radius={2}
-                key={v.id}
-                type={v.type}
-                rotation={[0, 0, 0]}
-                position={v.position}
-                config={defaultConfig}
-              />
-            )
-          })}
+          {transition(({ scale }, v) => (
+            <Dice
+              scale={scale}
+              onStop={() => dispatch({ type: 'REMOVE_ROLL', payload: v.id })}
+              radius={2}
+              key={v.id}
+              type={v.type}
+              rotation={[0, 0, 0]}
+              position={v.position}
+              config={defaultConfig}
+            />
+          ))}
           <OrbitControls />
         </Physics>
       </Canvas>
