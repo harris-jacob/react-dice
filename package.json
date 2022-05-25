@@ -12,8 +12,8 @@
   },
   "packageManager": "yarn@3.2.0",
   "devDependencies": {
-    "@babel/core": "7.17.12",
-    "@babel/preset-env": "7.17.12",
+    "@babel/core": "7.18.2",
+    "@babel/preset-env": "7.18.2",
     "@babel/preset-react": "7.17.12",
     "@babel/preset-typescript": "7.17.12",
     "@preconstruct/cli": "2.1.5",
