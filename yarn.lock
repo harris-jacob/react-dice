@@ -3079,10 +3079,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/three@npm:0.140.0":
-  version: 0.140.0
-  resolution: "@types/three@npm:0.140.0"
-  checksum: 05693787002f0e879e76a09cfd474d4fd100779f00c048e380d146783adaff539846988625b0f9117451bf2790637a236c68111f7f3e160f5227373a037381ba
+"@types/three@npm:0.141.0":
+  version: 0.141.0
+  resolution: "@types/three@npm:0.141.0"
+  dependencies:
+    "@types/webxr": "*"
+  checksum: b4d1fd19eec01a15374a9e0a181207f0b2a27df881f3cfc63ce167b36b214c6926d80ac0eeb80c365832f69e7180db514a859808150ece1c1503a4eb58d4ac1e
+  languageName: node
+  linkType: hard
+
+"@types/webxr@npm:*":
+  version: 0.4.0
+  resolution: "@types/webxr@npm:0.4.0"
+  checksum: 4388c18a5b08ef4aa97f2177d3d80d384c5557c4b06278215d46472585923128fb316353e5fb799d22ffe99be149af90d0c27c41cb3681e82228088e48b24184
   languageName: node
   linkType: hard
 
@@ -6885,7 +6894,7 @@ __metadata:
     "@babel/preset-typescript": 7.17.12
     "@preconstruct/cli": 2.1.5
     "@types/react": 18.0.12
-    "@types/three": 0.140.0
+    "@types/three": 0.141.0
     eslint: 8.17.0
     eslint-config-react-app: 7.0.1
     eslint-plugin-jest-dom: 4.0.2
@@ -6907,7 +6916,7 @@ __metadata:
     "@react-three/drei": ^9.6.2
     "@react-three/fiber": ^8.0.12
     cannon-es: ^0.19.0
-    three: ^0.140.0
+    three: ^0.141.0
     three-stdlib: ^2.10.1
   peerDependencies:
     react: ^18.0.0
@@ -7713,10 +7722,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"three@npm:^0.140.0":
-  version: 0.140.0
-  resolution: "three@npm:0.140.0"
-  checksum: f7d16e643046c831741972d3caddf1f0b64ed42d454e13708e8d6cc329d700fa0544324942fc361d1bffb924a144750fce3662288208c2b7ed640e3a732a6d2a
+"three@npm:^0.141.0":
+  version: 0.141.0
+  resolution: "three@npm:0.141.0"
+  checksum: d161350b5134f2db616c7081d625c84235a1d50658b9f9c6ffe94143ddb77944b1c1b6831ad0be00037f8c744c8c60ee8d740ea4d48844b54f4525ee73a2d44f
   languageName: node
   linkType: hard
 
