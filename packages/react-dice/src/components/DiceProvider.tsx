@@ -1,4 +1,4 @@
-import { Physics } from '@react-three/cannon'
+import { Debug, Physics } from '@react-three/cannon'
 import { OrbitControls } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import React, { useCallback, useEffect, useReducer } from 'react'
@@ -59,23 +59,25 @@ export const DiceProvider = ({ children }: { children: React.ReactNode }) => {
           penumbra={0.5}
         />
         <Physics gravity={[0, 0, -10]}>
-          <BoundingBox
-            width={screenSize.width / ZOOM}
-            height={screenSize.height / ZOOM}
-          />
-          {transition(({ scale }, v) => (
-            <Dice
-              scale={scale}
-              onStop={() => dispatch({ type: 'REMOVE_ROLL', payload: v.id })}
-              radius={2}
-              key={v.id}
-              type={v.type}
-              rotation={[0, 0, 0]}
-              position={v.position}
-              config={defaultConfig}
+          <Debug>
+            <BoundingBox
+              width={screenSize.width / ZOOM}
+              height={screenSize.height / ZOOM}
             />
-          ))}
-          <OrbitControls />
+            {transition(({ scale }, v) => (
+              <Dice
+                scale={scale}
+                onStop={() => dispatch({ type: 'REMOVE_ROLL', payload: v.id })}
+                radius={2}
+                key={v.id}
+                type={v.type}
+                rotation={[0, 0, 0]}
+                position={v.position}
+                config={defaultConfig}
+              />
+            ))}
+            <OrbitControls />
+          </Debug>
         </Physics>
       </Canvas>
       {children}

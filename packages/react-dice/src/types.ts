@@ -1,6 +1,7 @@
 export interface PolyhedronDefinition {
   vertices: number[]
   indices: number[]
+  faces: number[][]
 }
 
 export interface Dice {
