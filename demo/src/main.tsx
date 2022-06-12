@@ -13,7 +13,7 @@ const RollMe = (): JSX.Element => {
   const roll = useDice()
 
   return (
-    <button id='button' onClick={() => roll('d20')}>
+    <button id='button' onClick={() => roll('d4')}>
       Roll
     </button>
   )

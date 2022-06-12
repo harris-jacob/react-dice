@@ -1,15 +1,36 @@
-import { ConvexPolyhedronProps } from '@react-three/cannon'
-import { useConvexPolyhedron } from '@react-three/cannon'
-import React, { useEffect, useMemo } from 'react'
-import { useRef } from 'react'
-import { BufferGeometry, Mesh, PolyhedronGeometry, Vector3 } from 'three'
+import { animated, SpringValue } from '@react-spring/three'
+import {
+  ConvexPolyhedronProps,
+  Triplet,
+  useConvexPolyhedron
+} from '@react-three/cannon'
+import { Text } from '@react-three/drei'
+import React, { useEffect, useMemo, useRef } from 'react'
+import {
+  BufferGeometry,
+  Matrix4,
+  Mesh,
+  PolyhedronGeometry,
+  Quaternion,
+  Vector3
+} from 'three'
 import { Geometry } from 'three-stdlib/deprecated/Geometry'
+import { DiceConfig, TextConfig } from '../lib/dice-config'
 import { getDiceDefinition } from '../lib/polyhedron-config'
 import { multiply } from '../lib/vector'
-import { DeltrahedronDiceGeometry } from './DeltahedronDiceGeometry'
-import { DiceProps } from './props'
+import { DiceType, PolyhedronDefinition } from '../types'
 
 const VELOCITY_THRESHOLD = 0.05
+
+export interface DiceProps {
+  onStop: () => void
+  position: Triplet
+  type: DiceType
+  rotation: Triplet
+  radius: number
+  config: DiceConfig
+  scale: SpringValue<number>
+}
 
 export const Dice = ({
   type,
@@ -18,12 +39,12 @@ export const Dice = ({
   rotation,
   onStop,
   scale,
-  ...rest
+  config
 }: DiceProps): JSX.Element => {
   const ref = useRef<Mesh>(null!)
   const onStopRef = useRef<() => void>(onStop)
 
-  const definition = getDiceDefinition(type)
+  const definition = useMemo(() => getDiceDefinition(type), [type])
 
   const args = useMemo(() => {
     const geometry = new PolyhedronGeometry(
@@ -56,7 +77,7 @@ export const Dice = ({
         velocity.filter((v) => Math.abs(v) > VELOCITY_THRESHOLD).length === 0
       ) {
         unsub()
-        timeout = setTimeout(onStopRef.current, 5000)
+        timeout = setTimeout(onStopRef.current, 50000)
       }
     })
 
@@ -66,32 +87,39 @@ export const Dice = ({
     }
   }, [api])
 
-  switch (type) {
-    case 'd4':
-    case 'd8':
-    case 'd20':
-      return (
-        <DeltrahedronDiceGeometry
-          scale={scale}
-          ref={ref}
-          type={type}
-          position={position}
-          rotation={rotation}
-          radius={radius}
-          {...rest}
-        />
-      )
+  const textElem = useMemo(
+    () => createText(definition, radius, config.textConfig),
+    [definition, config.textConfig, radius]
+  )
 
-    case 'd10':
-      throw new Error('D10 not implememented')
-    case 'd12':
-      throw new Error('D12 not implememented')
-    case 'd6':
-      throw new Error('D6 not implememented')
-
-    default:
-      throw new Error('Unknown dice type')
-  }
+  const poly = (
+    <polyhedronGeometry
+      args={[definition.vertices, definition.indices, 2, 0]}
+    />
+  )
+  return (
+    <animated.mesh
+      castShadow
+      rotation={rotation}
+      position={position}
+      scale={scale}
+      ref={ref}
+    >
+      (
+      <meshPhysicalMaterial
+        color={config.color}
+        polygonOffset
+        polygonOffsetFactor={1}
+        envMapIntensity={0.4}
+        clearcoat={0.8}
+        clearcoatRoughness={0}
+        roughness={1}
+        metalness={0}
+      />
+      {poly}
+      {textElem}
+    </animated.mesh>
+  )
 }
 
 function toConvexProps(
@@ -104,4 +132,79 @@ function toConvexProps(
     geo.faces.map((f) => [f.a, f.b, f.c]),
     []
   ]
+}
+
+/**
+ * The logic here is to iterate through indices (which in the case of Deltahedrons
+ * directly map to faces), and transform text such that it is centered and parallel
+ * to each face
+ *
+ * TODO: in a D4 the text is usually not at the center of the face but toward one of the edges
+ */
+const createText = (
+  polyhedron: PolyhedronDefinition,
+  radius: number,
+  textConfig?: TextConfig
+): JSX.Element[] => {
+  return polyhedron.faces.map((face, i) => {
+    const position = getCenterOfFace(polyhedron, radius, face)
+    const matrix = new Matrix4().setPosition(position)
+    matrix.lookAt(position, new Vector3(), new Vector3(0, 1, 0))
+    const rotation = new Quaternion()
+    matrix.decompose(position, rotation, new Vector3())
+
+    return (
+      <Text
+        depthOffset={-1}
+        key={i}
+        matrix={matrix}
+        quaternion={rotation}
+        position={position}
+        fontSize={0.3}
+        {...textConfig}
+      >
+        {i + 1}
+      </Text>
+    )
+  })
+}
+
+const getCenterOfFace = (
+  polyhedron: PolyhedronDefinition,
+  radius: number,
+  face: number[]
+): Vector3 => {
+  let coords: Triplet[] = []
+  face.forEach((v) => {
+    coords.push(
+      applyRadius(getVertexByIndex(polyhedron.vertices, v), radius * 1.1)
+    )
+  })
+
+  const val = new Vector3().fromArray(
+    coords.reduce((acc, val, idx) => [
+      (val[0] + idx * acc[0]) / (idx + 1),
+      (val[1] + idx * acc[1]) / (idx + 1),
+      (val[2] + idx * acc[2]) / (idx + 1)
+    ])
+  )
+
+  return val
+}
+
+export const getVertexByIndex = (
+  vertices: Array<number>,
+  index: number
+): Triplet => {
+  const stride = index * 3
+
+  return [vertices[stride], vertices[stride + 1], vertices[stride + 2]]
+}
+
+const applyRadius = (vertex: Triplet, radius: number): Triplet => {
+  return new Vector3()
+    .fromArray(vertex)
+    .normalize()
+    .multiplyScalar(radius)
+    .toArray()
 }
