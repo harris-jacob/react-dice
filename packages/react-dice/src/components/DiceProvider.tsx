@@ -1,7 +1,7 @@
 import { Debug, Physics } from '@react-three/cannon'
 import { OrbitControls } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
-import React, { useCallback, useEffect, useReducer } from 'react'
+import React, { useCallback, useEffect, useReducer, useRef } from 'react'
 import { DiceContext } from '../DiceContext'
 import { useMeasure } from '../hooks/useMeasure'
 import { defaultConfig } from '../lib/dice-config'
@@ -10,6 +10,7 @@ import { DiceType } from '../types'
 import { BoundingBox } from './BoundingBox'
 import { Dice } from './Dice'
 import { useTransition } from '@react-spring/three'
+import { ResultObserver } from '../lib/result-observer'
 
 const initialState: RootState = {
   rolls: [],
@@ -47,9 +48,12 @@ export const DiceProvider = ({ children }: { children: React.ReactNode }) => {
     leave: { scale: 0 }
   })
 
+  const resultObserver = useRef(new ResultObserver())
+
   return (
     <DiceContext.Provider value={{ roll }}>
       <Canvas orthographic camera={{ zoom: ZOOM, near: 1, far: 1000 }}>
+        <axesHelper args={[5]} />
         <ambientLight />
         <spotLight
           intensity={1}
@@ -66,6 +70,9 @@ export const DiceProvider = ({ children }: { children: React.ReactNode }) => {
             />
             {transition(({ scale }, v) => (
               <Dice
+                onResult={(result) =>
+                  resultObserver.current.execute(v.id, result)
+                }
                 scale={scale}
                 onStop={() => dispatch({ type: 'REMOVE_ROLL', payload: v.id })}
                 radius={2}
