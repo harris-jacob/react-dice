@@ -10,10 +10,10 @@ const App = () => (
 )
 
 const RollMe = (): JSX.Element => {
-  const roll = useDice()
+  const roll = useDice((result) => console.log(result))
 
   return (
-    <button id='button' onClick={() => roll('d4')}>
+    <button id='button' onClick={() => roll('d20')}>
       Roll
     </button>
   )

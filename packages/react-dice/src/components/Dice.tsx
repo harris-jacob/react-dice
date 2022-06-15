@@ -15,6 +15,7 @@ import {
   Vector3
 } from 'three'
 import { Geometry } from 'three-stdlib/deprecated/Geometry'
+import { useDiceResult } from '../hooks/useDiceResult'
 import { DiceConfig, TextConfig } from '../lib/dice-config'
 import { getDiceDefinition } from '../lib/polyhedron-config'
 import { multiply } from '../lib/vector'
@@ -23,6 +24,7 @@ import { DiceType, PolyhedronDefinition } from '../types'
 const VELOCITY_THRESHOLD = 0.05
 
 export interface DiceProps {
+  onResult: (result: number) => void
   onStop: () => void
   position: Triplet
   type: DiceType
@@ -38,10 +40,12 @@ export const Dice = ({
   position,
   rotation,
   onStop,
+  onResult,
   scale,
   config
 }: DiceProps): JSX.Element => {
   const ref = useRef<Mesh>(null!)
+  const polyRef = useRef<PolyhedronGeometry>(null!)
   const onStopRef = useRef<() => void>(onStop)
 
   const definition = useMemo(() => getDiceDefinition(type), [type])
@@ -60,6 +64,8 @@ export const Dice = ({
     () => ({ args, mass: 1.5, position, rotation }),
     ref
   )
+
+  useDiceResult(ref, api, onResult)
 
   useEffect(() => {
     const forceDir = new Vector3()
@@ -94,6 +100,7 @@ export const Dice = ({
 
   const poly = (
     <polyhedronGeometry
+      ref={polyRef}
       args={[definition.vertices, definition.indices, 2, 0]}
     />
   )
@@ -176,9 +183,7 @@ const getCenterOfFace = (
 ): Vector3 => {
   let coords: Triplet[] = []
   face.forEach((v) => {
-    coords.push(
-      applyRadius(getVertexByIndex(polyhedron.vertices, v), radius * 1.1)
-    )
+    coords.push(applyRadius(getVertexByIndex(polyhedron.vertices, v), radius))
   })
 
   const val = new Vector3().fromArray(
