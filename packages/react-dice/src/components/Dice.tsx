@@ -84,6 +84,7 @@ export const Dice = ({
       ) {
         unsub()
         timeout = setTimeout(onStopRef.current, 5000)
+        api.sleep()
       }
     })
 
