@@ -1,28 +1,27 @@
-import { useEffect, useState } from 'react'
-
-interface SceenDimensions {
-  width: number
-  height: number
-}
+import { useEffect, useRef } from 'react'
 
 /**
  * Measure width and height of reference element
  * TODO: throttle? Also use ref to canvas instead?
  */
-export const useMeasure = (): SceenDimensions => {
-  const [state, setState] = useState<SceenDimensions>({ width: 0, height: 0 })
+export const useMeasure = (
+  onChange: (width: number, height: number) => void
+): void => {
+  const savedCallback = useRef(onChange)
 
   useEffect(() => {
-    const setSize = () => {
-      setState(() => ({ width: window.innerWidth, height: window.innerHeight }))
+    savedCallback.current = onChange
+  }, [onChange])
+
+  useEffect(() => {
+    const callback = () => {
+      savedCallback.current(window.innerWidth, window.innerHeight)
     }
 
-    window.addEventListener('resize', setSize)
+    window.addEventListener('resize', callback)
 
-    setSize()
+    callback()
 
-    return () => window.removeEventListener('resize', setSize)
+    return () => window.removeEventListener('resize', callback)
   }, [])
-
-  return state
 }
