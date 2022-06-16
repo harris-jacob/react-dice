@@ -83,7 +83,7 @@ export const Dice = ({
         velocity.filter((v) => Math.abs(v) > VELOCITY_THRESHOLD).length === 0
       ) {
         unsub()
-        timeout = setTimeout(onStopRef.current, 50000)
+        timeout = setTimeout(onStopRef.current, 5000)
       }
     })
 

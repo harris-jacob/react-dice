@@ -1,19 +1,20 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { DiceProvider, useDice } from 'react-dice'
+import { DiceTray, useRoll } from 'react-dice'
 import './index.css'
 
 const App = () => (
-  <DiceProvider>
+  <>
+    <DiceTray />
     <RollMe />
-  </DiceProvider>
+  </>
 )
 
 const RollMe = (): JSX.Element => {
-  const roll = useDice((result) => console.log(result))
+  const roll = useRoll('d20')
 
   return (
-    <button id='button' onClick={() => roll('d20')}>
+    <button id='button' onClick={() => roll()}>
       Roll
     </button>
   )
