@@ -11,17 +11,17 @@ const App = () => (
 )
 
 const RollMe = (): JSX.Element => {
-  const roll = useRoll('d20')
+  const roll = useRoll()
 
   return (
-    <button id='button' onClick={() => roll()}>
+    <button id='button' onClick={() => roll('d20')}>
       Roll
     </button>
   )
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  // <React.StrictMode>
+  <App />
+  // </React.StrictMode>
 )

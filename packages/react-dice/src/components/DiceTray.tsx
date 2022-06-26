@@ -1,72 +1,33 @@
-import { Debug, Physics, Triplet } from '@react-three/cannon'
+import { useTransition } from '@react-spring/three'
+import { Physics } from '@react-three/cannon'
 import { Canvas } from '@react-three/fiber'
-import { DiceType } from '../types'
+import React from 'react'
+import { useMeasure } from '../hooks/useMeasure'
 import { defaultConfig } from '../lib/dice-config'
-import React, { useCallback } from 'react'
-import create from 'zustand'
 import { BoundingBox } from './BoundingBox'
 import { Dice } from './Dice'
-import { useTransition } from '@react-spring/three'
-import { uniqueId, position, rotation } from '../lib/initialize-roll'
-import { useMeasure } from '../hooks/useMeasure'
-
-interface Roll {
-  id: string
-  position: Triplet
-  rotation: Triplet
-  type: DiceType
-}
-
-interface ScreenDimensions {
-  x: number
-  y: number
-}
-
-interface DiceState {
-  rolls: Array<Roll>
-  screenSize: ScreenDimensions
-  updateScreenSize: (x: number, y: number) => void
-  addRoll: (roll: Roll) => void
-  removeRoll: (id: string) => void
-}
+import { useStore } from '../hooks/useStore'
 
 const ZOOM = 40
 
-const useStore = create<DiceState>((set) => ({
-  rolls: [],
-  screenSize: { x: 0, y: 0 },
-  updateScreenSize: (x: number, y: number) =>
-    set((state) => ({ ...state, screenSize: { x: x / ZOOM, y: y / ZOOM } })),
-  addRoll: (roll: Roll) => set((state) => ({ rolls: [...state.rolls, roll] })),
-  removeRoll: (id: string) =>
-    set((state) => ({ rolls: state.rolls.filter((v) => v.id !== id) }))
-}))
-
-export const useRoll = (type: DiceType) => {
-  const addRoll = useStore((state) => state.addRoll)
-  const screenSize = useStore((state) => state.screenSize)
-
-  return () =>
-    addRoll({
-      id: uniqueId(),
-      rotation: rotation(),
-      position: position(screenSize.x, screenSize.y, -17),
-      type
-    })
+export const useRoll = () => {
+  return useStore((state) => state.addDice)
 }
 
 export const DiceTray = (): JSX.Element => {
-  const { rolls, removeRoll, updateScreenSize, screenSize } = useStore()
-  useMeasure((width, height) => updateScreenSize(width, height))
+  const dice = useStore((state) => state.dice)
+  const screenSize = useStore((state) => state.screen)
+  const setScreenSize = useStore((state) => state.setScreen)
+  useMeasure((x, y) => setScreenSize(x / ZOOM, y / ZOOM))
 
-  const transition = useTransition(rolls, {
+  const transition = useTransition(dice, {
     from: { scale: 1 },
     enter: { scale: 1 },
     leave: { scale: 0 }
   })
 
   return (
-    <Canvas orthographic camera={{ zoom: ZOOM, near: 1, far: 1000 }}>
+    <Canvas orthographic camera={{ zoom: ZOOM, near: 1, far: 50 }}>
       <ambientLight />
       <spotLight
         intensity={1}
@@ -76,12 +37,12 @@ export const DiceTray = (): JSX.Element => {
         penumbra={0.5}
       />
       <Physics gravity={[0, 0, -10]}>
-        <Debug>
-          <BoundingBox width={screenSize.x} height={screenSize.y} />
-          {transition(({ scale }, v) => (
+        <BoundingBox width={screenSize.x} height={screenSize.y} />
+        {transition(({ scale }, v) => {
+          console.log(v)
+          return (
             <Dice
-              onResult={(result) => console.log(result)}
-              onStop={() => removeRoll(v.id)}
+              onResult={(res) => console.log(res)}
               scale={scale}
               radius={2}
               key={v.id}
@@ -90,8 +51,8 @@ export const DiceTray = (): JSX.Element => {
               position={v.position}
               config={defaultConfig}
             />
-          ))}
-        </Debug>
+          )
+        })}
       </Physics>
     </Canvas>
   )

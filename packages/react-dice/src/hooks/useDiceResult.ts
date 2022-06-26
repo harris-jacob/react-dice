@@ -1,5 +1,5 @@
 import { PublicApi } from '@react-three/cannon'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { Mesh, Raycaster, Vector3 } from 'three/src/Three'
 import { assertDefined } from '../lib/utils'
 
@@ -15,11 +15,13 @@ export const useDiceResult = (
   onResult: (result: number) => void
 ) => {
   const raycaster = useMemo(() => new Raycaster(), [])
+  const flag = useRef(true)
 
   useEffect(() => {
     const unsub = api.velocity.subscribe((velocity) => {
       if (
-        velocity.filter((v) => Math.abs(v) > VELOCITY_THRESHOLD).length === 0
+        velocity.filter((v) => Math.abs(v) > VELOCITY_THRESHOLD).length === 0 &&
+        flag.current
       ) {
         const origin = ref.current
           .getWorldPosition(new Vector3())
@@ -34,14 +36,14 @@ export const useDiceResult = (
           throw new Error('dice cocked')
         } else {
           // TODO only works for deltahedrons
+          //
           assertDefined(intersect[0].faceIndex)
-          onResult(intersect[0].faceIndex)
+          onResult(intersect[0].faceIndex + 1)
         }
-
         unsub()
       }
     })
 
     return () => unsub()
-  })
+  }, [onResult, raycaster, api.velocity, ref])
 }
