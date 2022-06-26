@@ -21,11 +21,8 @@ import { getDiceDefinition } from '../lib/polyhedron-config'
 import { multiply } from '../lib/vector'
 import { DiceType, PolyhedronDefinition } from '../types'
 
-const VELOCITY_THRESHOLD = 0.05
-
 export interface DiceProps {
   onResult: (result: number) => void
-  onStop: () => void
   position: Triplet
   type: DiceType
   rotation: Triplet
@@ -39,15 +36,12 @@ export const Dice = ({
   radius,
   position,
   rotation,
-  onStop,
   onResult,
   scale,
   config
 }: DiceProps): JSX.Element => {
   const ref = useRef<Mesh>(null!)
   const polyRef = useRef<PolyhedronGeometry>(null!)
-  const onStopRef = useRef<() => void>(onStop)
-
   const definition = useMemo(() => getDiceDefinition(type), [type])
 
   const args = useMemo(() => {
@@ -75,24 +69,6 @@ export const Dice = ({
     api.applyLocalForce(force, [0, 0, 0])
     api.applyTorque([1000, 1000, 0])
   }, [position, api])
-
-  useEffect(() => {
-    let timeout: NodeJS.Timeout
-    const unsub = api.velocity.subscribe((velocity) => {
-      if (
-        velocity.filter((v) => Math.abs(v) > VELOCITY_THRESHOLD).length === 0
-      ) {
-        unsub()
-        timeout = setTimeout(onStopRef.current, 5000)
-        api.sleep()
-      }
-    })
-
-    return () => {
-      clearTimeout(timeout)
-      unsub()
-    }
-  }, [api])
 
   const textElem = useMemo(
     () => createText(definition, radius, config.textConfig),
