@@ -2,6 +2,7 @@ import { PublicApi } from '@react-three/cannon'
 import { useEffect, useMemo, useRef } from 'react'
 import { Mesh, Raycaster, Vector3 } from 'three/src/Three'
 import { assertDefined } from '../lib/utils'
+import { useStore } from '../hooks/useStore'
 
 const VELOCITY_THRESHOLD = 0.05
 
@@ -15,7 +16,8 @@ export const useDiceResult = (
   onResult: (result: number) => void
 ) => {
   const raycaster = useMemo(() => new Raycaster(), [])
-  const flag = useRef(true)
+  const flag = useRef(false)
+  const removeDice = useStore((state) => state.removeDice)
 
   useEffect(() => {
     const unsub = api.velocity.subscribe((velocity) => {
@@ -36,14 +38,16 @@ export const useDiceResult = (
           throw new Error('dice cocked')
         } else {
           // TODO only works for deltahedrons
-          //
           assertDefined(intersect[0].faceIndex)
           onResult(intersect[0].faceIndex + 1)
+          removeDice()
         }
         unsub()
       }
     })
 
+    flag.current = true
+
     return () => unsub()
-  }, [onResult, raycaster, api.velocity, ref])
+  }, [])
 }

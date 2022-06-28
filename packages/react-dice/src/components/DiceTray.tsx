@@ -3,27 +3,43 @@ import { Physics } from '@react-three/cannon'
 import { Canvas } from '@react-three/fiber'
 import React from 'react'
 import { useMeasure } from '../hooks/useMeasure'
+import { useSavedCallback } from '../hooks/useSavedCallback'
+import { useStore } from '../hooks/useStore'
 import { defaultConfig } from '../lib/dice-config'
+import { DiceType } from '../types'
 import { BoundingBox } from './BoundingBox'
 import { Dice } from './Dice'
-import { useStore } from '../hooks/useStore'
 
 const ZOOM = 40
 
-export const useRoll = () => {
-  return useStore((state) => state.addDice)
+interface UseRollReturn {
+  roll: (type: DiceType) => void
+  processing: boolean
 }
 
-export const DiceTray = (): JSX.Element => {
+export const useRoll = (): UseRollReturn => {
+  return useStore((state) => ({
+    roll: state.addDice,
+    processing: state.dice.length !== 0
+  }))
+}
+
+export const DiceTray = ({
+  onResult
+}: {
+  onResult: (result: number) => void
+}): JSX.Element => {
   const dice = useStore((state) => state.dice)
   const screenSize = useStore((state) => state.screen)
   const setScreenSize = useStore((state) => state.setScreen)
   useMeasure((x, y) => setScreenSize(x / ZOOM, y / ZOOM))
+  const resultCallback = useSavedCallback(onResult)
 
   const transition = useTransition(dice, {
     from: { scale: 1 },
     enter: { scale: 1 },
-    leave: { scale: 0 }
+    leave: { scale: 0 },
+    delay: 5000
   })
 
   return (
@@ -39,10 +55,9 @@ export const DiceTray = (): JSX.Element => {
       <Physics gravity={[0, 0, -10]}>
         <BoundingBox width={screenSize.x} height={screenSize.y} />
         {transition(({ scale }, v) => {
-          console.log(v)
           return (
             <Dice
-              onResult={(res) => console.log(res)}
+              onResult={resultCallback}
               scale={scale}
               radius={2}
               key={v.id}

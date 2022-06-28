@@ -59,16 +59,16 @@ export const Dice = ({
     ref
   )
 
-  useDiceResult(ref, api, onResult)
-
   useEffect(() => {
-    const forceDir = new Vector3()
+    const direction = new Vector3()
       .sub(new Vector3(position[0], position[1], position[2]))
       .normalize()
-    const force = multiply(forceDir.toArray(), [5000, 5000, 0])
-    api.applyLocalForce(force, [0, 0, 0])
+    const force = multiply(direction.toArray(), [100, 100, 0])
+    api.velocity.set(...force)
     api.applyTorque([1000, 1000, 0])
   }, [position, api])
+
+  useDiceResult(ref, api, onResult)
 
   const textElem = useMemo(
     () => createText(definition, radius, config.textConfig),

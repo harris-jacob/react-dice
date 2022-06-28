@@ -29,15 +29,19 @@ export const useStore = create<State>((set) => ({
   screen: { x: 0, y: 0 },
   setScreen: (x, y) => set(() => ({ screen: { x, y } })),
   addDice: (type) =>
-    set((state) => ({
-      dice: [
-        {
-          id: uniqueId(),
-          rotation: rotation(),
-          position: position(state.screen.x, state.screen.y, -17),
-          type
-        }
-      ]
-    })),
+    set((state) =>
+      state.dice.length === 0
+        ? {
+            dice: [
+              {
+                id: uniqueId(),
+                rotation: rotation(),
+                position: position(state.screen.x, state.screen.y, -17),
+                type
+              }
+            ]
+          }
+        : state
+    ),
   removeDice: () => set(() => ({ dice: [] }))
 }))
