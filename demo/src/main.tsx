@@ -5,16 +5,16 @@ import './index.css'
 
 const App = () => (
   <>
-    <DiceTray />
+    <DiceTray onResult={(result) => window.alert(`your result is ${result}`)} />
     <RollMe />
   </>
 )
 
 const RollMe = (): JSX.Element => {
-  const roll = useRoll()
+  const { roll, processing } = useRoll()
 
   return (
-    <button id='button' onClick={() => roll('d20')}>
+    <button disabled={processing} id='button' onClick={() => roll('d20')}>
       Roll
     </button>
   )
