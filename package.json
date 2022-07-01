@@ -16,7 +16,7 @@
     "@babel/preset-env": "7.18.2",
     "@babel/preset-react": "7.17.12",
     "@babel/preset-typescript": "7.17.12",
-    "@preconstruct/cli": "2.1.5",
+    "@preconstruct/cli": "2.1.6",
     "@types/react": "18.0.12",
     "@types/three": "0.141.0",
     "eslint": "8.17.0",
