@@ -2537,9 +2537,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@preconstruct/cli@npm:2.1.6":
-  version: 2.1.6
-  resolution: "@preconstruct/cli@npm:2.1.6"
+"@preconstruct/cli@npm:2.1.7":
+  version: 2.1.7
+  resolution: "@preconstruct/cli@npm:2.1.7"
   dependencies:
     "@babel/code-frame": ^7.5.5
     "@babel/core": ^7.7.7
@@ -2580,7 +2580,7 @@ __metadata:
     v8-compile-cache: ^2.1.1
   bin:
     preconstruct: bin.js
-  checksum: f4bc2f9f3a76b174ee0f588eebf5a64c5da40c72b775ab24711586d2819328036eb4bc0490180c312ed6af010fe90e95946c33eac6a8fd8ad735d7fc0b0dbc40
+  checksum: 5ff8c5086d12ebf1ce5ffbb6ed567e02472aec5268c43b70792e7630675cb648f888c713ab4232c2e9384f9a3cc901722c6f6c7878eb6b9c486e8b627ca55edb
   languageName: node
   linkType: hard
 
@@ -6892,7 +6892,7 @@ __metadata:
     "@babel/preset-env": 7.18.2
     "@babel/preset-react": 7.17.12
     "@babel/preset-typescript": 7.17.12
-    "@preconstruct/cli": 2.1.6
+    "@preconstruct/cli": 2.1.7
     "@types/react": 18.0.12
     "@types/three": 0.141.0
     eslint: 8.17.0
@@ -6918,6 +6918,7 @@ __metadata:
     cannon-es: ^0.19.0
     three: ^0.142.0
     three-stdlib: ^2.10.1
+    zustand: ^4.0.0-rc.1
   peerDependencies:
     react: ^18.0.0
   languageName: unknown
@@ -7969,6 +7970,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"use-sync-external-store@npm:1.1.0":
+  version: 1.1.0
+  resolution: "use-sync-external-store@npm:1.1.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 8993a0b642f91d7fcdbb02b7b3ac984bd3af4769686f38291fe7fcfe73dfb73d6c64d20dfb7e5e7fbf5a6da8f5392d6f8e5b00c243a04975595946e82c02b883
+  languageName: node
+  linkType: hard
+
 "util-deprecate@npm:^1.0.1":
   version: 1.0.2
   resolution: "util-deprecate@npm:1.0.2"
@@ -8137,5 +8147,22 @@ __metadata:
     react:
       optional: true
   checksum: 18f025b1b666a311121d3855303ff58e6a21fd107920ca474307e86984c13338d6c4cfa5cdf13382a9e0f76821f2554a12d4d200a98a66b58637e729f149797b
+  languageName: node
+  linkType: hard
+
+"zustand@npm:^4.0.0-rc.1":
+  version: 4.0.0-rc.1
+  resolution: "zustand@npm:4.0.0-rc.1"
+  dependencies:
+    use-sync-external-store: 1.1.0
+  peerDependencies:
+    immer: ">=9.0"
+    react: ">=16.8"
+  peerDependenciesMeta:
+    immer:
+      optional: true
+    react:
+      optional: true
+  checksum: c88ae96286229b3c463cf7989c860fcde8ec9cf885eb50a0e0eaf9642388d407a854e5e07b9f80676454732bf15e1c7645201cff21fd9feacd5df8bbd62fcd46
   languageName: node
   linkType: hard
