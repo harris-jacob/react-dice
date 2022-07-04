@@ -1,26 +1,27 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { DiceProvider, useDice } from 'react-dice'
+import { DiceTray, useRoll } from 'react-dice'
 import './index.css'
 
 const App = () => (
-  <DiceProvider>
+  <>
+    <DiceTray onResult={(result) => window.alert(`your result is ${result}`)} />
     <RollMe />
-  </DiceProvider>
+  </>
 )
 
 const RollMe = (): JSX.Element => {
-  const roll = useDice()
+  const { roll, processing } = useRoll()
 
   return (
-    <button id='button' onClick={() => roll('d4')}>
+    <button disabled={processing} id='button' onClick={() => roll('d20')}>
       Roll
     </button>
   )
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  // <React.StrictMode>
+  <App />
+  // </React.StrictMode>
 )

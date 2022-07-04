@@ -1,3 +1,2 @@
-import { DiceProvider } from './components/DiceProvider'
-import { useDice } from './useDice'
-export { DiceProvider, useDice }
+import { DiceTray, useRoll } from './components/DiceTray'
+export { DiceTray, useRoll }

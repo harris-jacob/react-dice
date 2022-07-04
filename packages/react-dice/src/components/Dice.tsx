@@ -15,15 +15,14 @@ import {
   Vector3
 } from 'three'
 import { Geometry } from 'three-stdlib/deprecated/Geometry'
+import { useDiceResult } from '../hooks/useDiceResult'
 import { DiceConfig, TextConfig } from '../lib/dice-config'
 import { getDiceDefinition } from '../lib/polyhedron-config'
 import { multiply } from '../lib/vector'
 import { DiceType, PolyhedronDefinition } from '../types'
 
-const VELOCITY_THRESHOLD = 0.05
-
 export interface DiceProps {
-  onStop: () => void
+  onResult: (result: number) => void
   position: Triplet
   type: DiceType
   rotation: Triplet
@@ -37,13 +36,12 @@ export const Dice = ({
   radius,
   position,
   rotation,
-  onStop,
+  onResult,
   scale,
   config
 }: DiceProps): JSX.Element => {
   const ref = useRef<Mesh>(null!)
-  const onStopRef = useRef<() => void>(onStop)
-
+  const polyRef = useRef<PolyhedronGeometry>(null!)
   const definition = useMemo(() => getDiceDefinition(type), [type])
 
   const args = useMemo(() => {
@@ -62,30 +60,15 @@ export const Dice = ({
   )
 
   useEffect(() => {
-    const forceDir = new Vector3()
+    const direction = new Vector3()
       .sub(new Vector3(position[0], position[1], position[2]))
       .normalize()
-    const force = multiply(forceDir.toArray(), [5000, 5000, 0])
-    api.applyLocalForce(force, [0, 0, 0])
+    const force = multiply(direction.toArray(), [100, 100, 0])
+    api.velocity.set(...force)
     api.applyTorque([1000, 1000, 0])
   }, [position, api])
 
-  useEffect(() => {
-    let timeout: NodeJS.Timeout
-    const unsub = api.velocity.subscribe((velocity) => {
-      if (
-        velocity.filter((v) => Math.abs(v) > VELOCITY_THRESHOLD).length === 0
-      ) {
-        unsub()
-        timeout = setTimeout(onStopRef.current, 50000)
-      }
-    })
-
-    return () => {
-      clearTimeout(timeout)
-      unsub()
-    }
-  }, [api])
+  useDiceResult(ref, api, onResult)
 
   const textElem = useMemo(
     () => createText(definition, radius, config.textConfig),
@@ -94,6 +77,7 @@ export const Dice = ({
 
   const poly = (
     <polyhedronGeometry
+      ref={polyRef}
       args={[definition.vertices, definition.indices, 2, 0]}
     />
   )
@@ -176,9 +160,7 @@ const getCenterOfFace = (
 ): Vector3 => {
   let coords: Triplet[] = []
   face.forEach((v) => {
-    coords.push(
-      applyRadius(getVertexByIndex(polyhedron.vertices, v), radius * 1.1)
-    )
+    coords.push(applyRadius(getVertexByIndex(polyhedron.vertices, v), radius))
   })
 
   const val = new Vector3().fromArray(
