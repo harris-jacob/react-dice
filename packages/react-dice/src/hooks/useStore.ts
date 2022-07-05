@@ -1,6 +1,6 @@
 import { Triplet } from '@pmndrs/cannon-worker-api'
 import create from 'zustand'
-import { position, rotation, uniqueId } from '../lib/initialize-roll'
+import { position, rotation, uniqueId } from '../lib/utils'
 
 import { DiceType } from '../types'
 

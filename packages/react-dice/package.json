@@ -7,7 +7,8 @@
   "main": "dist/react-dice.cjs.js",
   "module": "dist/react-dice.esm.js",
   "peerDependencies": {
-    "react": "^18.0.0"
+    "react": "^18.0.0",
+    "three": "^0.142.0"
   },
   "dependencies": {
     "@react-spring/three": "^9.4.5",
@@ -15,7 +16,6 @@
     "@react-three/drei": "^9.6.2",
     "@react-three/fiber": "^8.0.12",
     "cannon-es": "^0.19.0",
-    "three": "^0.142.0",
     "three-stdlib": "^2.10.1",
     "zustand": "^4.0.0-rc.1"
   }
