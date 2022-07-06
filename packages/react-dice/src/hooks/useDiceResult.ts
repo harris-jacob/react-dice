@@ -49,5 +49,6 @@ export const useDiceResult = (
     flag.current = true
 
     return () => unsub()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 }
