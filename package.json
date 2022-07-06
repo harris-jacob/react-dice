@@ -44,5 +44,8 @@
     "pretty": "prettier .prettierrc 'packages/react-dice/src/' 'demo/src'",
     "pretty:check": "yarn pretty --check",
     "pretty:fix": "yarn pretty --write"
+  },
+  "dependencies": {
+    "cypress": "^10.3.0"
   }
 }
