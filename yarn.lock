@@ -4993,6 +4993,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-plugin-testing-library@npm:^5.5.1":
+  version: 5.5.1
+  resolution: "eslint-plugin-testing-library@npm:5.5.1"
+  dependencies:
+    "@typescript-eslint/utils": ^5.13.0
+  peerDependencies:
+    eslint: ^7.5.0 || ^8.0.0
+  checksum: 558994da12e6a9ff0c4f71c2e63a23746b6323d171062032843591e0fca6ce3811f979cf82e11db003c8b4f1d9842cb75301bfaa9e88d1a399b11ea6686aadcc
+  languageName: node
+  linkType: hard
+
 "eslint-scope@npm:^5.1.1":
   version: 5.1.1
   resolution: "eslint-scope@npm:5.1.1"
@@ -7172,6 +7183,7 @@ __metadata:
     eslint: 8.17.0
     eslint-config-react-app: 7.0.1
     eslint-plugin-jest-dom: 4.0.2
+    eslint-plugin-testing-library: ^5.5.1
     gh-pages: 4.0.0
     husky: 8.0.1
     prettier: 2.6.2
