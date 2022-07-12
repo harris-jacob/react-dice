@@ -6,7 +6,7 @@
       "packages/*"
     ]
   },
-  "packageManager": "yarn@3.2.1",
+  "packageManager": "pnpm@7.5.1",
   "devDependencies": {
     "@babel/core": "7.18.2",
     "@babel/preset-env": "7.18.2",
