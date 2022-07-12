@@ -6,10 +6,6 @@
   "packageManager": "yarn@3.2.1",
   "main": "dist/react-dice.cjs.js",
   "module": "dist/react-dice.esm.js",
-  "peerDependencies": {
-    "react": "^18.0.0",
-    "three": "^0.142.0"
-  },
   "dependencies": {
     "@react-spring/three": "^9.4.5",
     "@react-three/cannon": "^6.3.0",
@@ -18,5 +14,13 @@
     "cannon-es": "^0.19.0",
     "three-stdlib": "^2.10.1",
     "zustand": "^4.0.0-rc.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.15",
+    "@types/three": "^0.141.0"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "three": "^0.142.0"
   }
 }
