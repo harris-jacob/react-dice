@@ -48,6 +48,7 @@ importers:
       react: 18.1.0
       react-dice: workspace:*
       react-dom: 18.1.0
+      react-is: ^18.2.0
       styled-components: ^5.3.5
       three: ^0.142.0
       typescript: 4.7.3
@@ -57,7 +58,8 @@ importers:
       react: 18.1.0
       react-dice: link:../packages/react-dice
       react-dom: 18.1.0_react@18.1.0
-      styled-components: 5.3.5_ef5jwxihqo6n7gxfmzogljlgcm
+      react-is: 18.2.0
+      styled-components: 5.3.5_uuaz5p7xzfmtjacf6iqf7idnby
       three: 0.142.0
     devDependencies:
       '@types/react': 18.0.12
@@ -3054,7 +3056,7 @@ packages:
       babel-plugin-syntax-jsx: 6.18.0
       lodash: 4.17.21
       picomatch: 2.3.1
-      styled-components: 5.3.5_ef5jwxihqo6n7gxfmzogljlgcm
+      styled-components: 5.3.5_uuaz5p7xzfmtjacf6iqf7idnby
     dev: false
 
   /babel-plugin-syntax-jsx/6.18.0:
@@ -6239,6 +6241,13 @@ packages:
       }
     dev: true
 
+  /react-is/18.2.0:
+    resolution:
+      {
+        integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
+      }
+    dev: false
+
   /react-merge-refs/1.1.0:
     resolution:
       {
@@ -6814,7 +6823,7 @@ packages:
       escape-string-regexp: 1.0.5
     dev: true
 
-  /styled-components/5.3.5_ef5jwxihqo6n7gxfmzogljlgcm:
+  /styled-components/5.3.5_uuaz5p7xzfmtjacf6iqf7idnby:
     resolution:
       {
         integrity: sha512-ndETJ9RKaaL6q41B69WudeqLzOpY1A/ET/glXkNZ2T7dPjPqpPCXXQjDFYZWwNnE5co0wX+gTCqx9mfxTmSIPg==
@@ -6836,6 +6845,7 @@ packages:
       hoist-non-react-statics: 3.3.2
       react: 18.1.0
       react-dom: 18.1.0_react@18.1.0
+      react-is: 18.2.0
       shallowequal: 1.1.0
       supports-color: 5.5.0
     dev: false
