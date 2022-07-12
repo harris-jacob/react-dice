@@ -1,10 +1,6 @@
 {
   "name": "react-dice--root",
   "private": true,
-  "workspaces": [
-    "packages/*",
-    "demo"
-  ],
   "preconstruct": {
     "packages": [
       "packages/*"
@@ -33,20 +29,18 @@
   "main": "dist/react-dice.cjs.js",
   "module": "dist/react-dice.esm.js",
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "build": "preconstruct build",
     "watch": "preconstruct watch",
-    "demo:dev": "yarn workspace demo dev",
-    "demo:build": "yarn workspace demo build",
-    "demo:release": "yarn demo:build && gh-pages -d demo/dist/",
+    "demo:dev": "pnpm run --filter demo dev",
+    "demo:build": "pnpm run --filter demo build",
+    "demo:release": "pnpm run demo:build && gh-pages -d demo/dist/",
     "prepare": "husky install",
     "postinstall": "preconstruct dev",
     "lint": "eslint --max-warnings=0  packages/*/src demo/src",
-    "lint:fix": "yarn lint --fix",
+    "lint:fix": "pnpm run lint --fix",
     "pretty": "prettier .prettierrc 'packages/react-dice/src/' 'demo/src'",
-    "pretty:check": "yarn pretty --check",
-    "pretty:fix": "yarn pretty --write"
-  },
-  "dependencies": {
-    "cypress": "^10.3.0"
+    "pretty:check": "pnpm run pretty --check",
+    "pretty:fix": "pnpm run pretty --write"
   }
 }
