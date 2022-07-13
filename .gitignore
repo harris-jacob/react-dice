@@ -29,3 +29,5 @@ node_modules
 # editor
 *~undo-tree~
 .log/
+.vscode/
+.vim/

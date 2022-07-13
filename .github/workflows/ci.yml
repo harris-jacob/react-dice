@@ -19,33 +19,23 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
+      - name: pnpm setup
+        uses: pnpm/action-setup@v2.2.2
+
       - name: Use Node
         uses: actions/setup-node@v3
         with:
           node-version: '16'
-
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
-
-      - name: Cache yarn modules
-        uses: actions/cache@v3
-        id: yarn-cache
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          cache: 'pnpm'
 
       - name: Install deps
-        if: steps.yarn-cache-dir-cache.outputs.cache-hit != 'true'
-        run: yarn install --immutable
+        run: pnpm install
 
       - name: Check lint
-        run: yarn lint
+        run: pnpm run lint
 
       - name: Check pretty
-        run: yarn pretty:check
+        run: pnpm run pretty:check
 
   build_packages:
     name: Build packages
@@ -55,24 +45,17 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
+      - name: pnpm setup
+        uses: pnpm/action-setup@v2.2.2
+
       - name: Use Node
         uses: actions/setup-node@v3
         with:
           node-version: '16'
-
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
-
-      - name: Get yarn cache
-        uses: actions/cache@v3
-        id: yarn-cache
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          cache: 'pnpm'
 
       - name: Install deps
-        run: yarn --immutable-cache --immutable
+        run: pnpm install
 
       - name: Setup build cache
         uses: actions/cache@v3
@@ -85,7 +68,7 @@ jobs:
 
       - name: Build
         if: steps.build-packages-cache.outputs.cache-hit != 'true'
-        run: yarn build
+        run: pnpm run build
 
   build_demo:
     name: Build demo
@@ -95,24 +78,17 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
+      - name: pnpm setup
+        uses: pnpm/action-setup@v2.2.2
+
       - name: Use Node
         uses: actions/setup-node@v3
         with:
           node-version: '16'
-
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
-
-      - name: Get yarn cache
-        uses: actions/cache@v3
-        id: yarn-cache
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          cache: 'pnpm'
 
       - name: Install deps
-        run: yarn --immutable-cache --immutable
+        run: pnpm install
 
       - name: Setup build cache
         uses: actions/cache@v3
@@ -125,4 +101,4 @@ jobs:
 
       - name: Build
         if: steps.build-demo-cache.outputs.cache-hit != 'true'
-        run: yarn demo:build
+        run: yarn run demo:build

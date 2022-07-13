@@ -1,16 +1,12 @@
 {
   "name": "react-dice--root",
   "private": true,
-  "workspaces": [
-    "packages/*",
-    "demo"
-  ],
   "preconstruct": {
     "packages": [
       "packages/*"
     ]
   },
-  "packageManager": "yarn@3.2.1",
+  "packageManager": "pnpm@7.5.1",
   "devDependencies": {
     "@babel/core": "7.18.2",
     "@babel/preset-env": "7.18.2",
@@ -22,6 +18,7 @@
     "eslint": "8.17.0",
     "eslint-config-react-app": "7.0.1",
     "eslint-plugin-jest-dom": "4.0.2",
+    "eslint-plugin-testing-library": "^5.5.1",
     "gh-pages": "4.0.0",
     "husky": "8.0.1",
     "prettier": "2.6.2",
@@ -32,17 +29,18 @@
   "main": "dist/react-dice.cjs.js",
   "module": "dist/react-dice.esm.js",
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "build": "preconstruct build",
     "watch": "preconstruct watch",
-    "demo:dev": "yarn workspace demo dev",
-    "demo:build": "yarn workspace demo build",
-    "demo:release": "yarn demo:build && gh-pages -d demo/dist/",
+    "demo:dev": "pnpm run --filter demo dev",
+    "demo:build": "pnpm run --filter demo build",
+    "demo:release": "pnpm run demo:build && gh-pages -d demo/dist/",
     "prepare": "husky install",
     "postinstall": "preconstruct dev",
     "lint": "eslint --max-warnings=0  packages/*/src demo/src",
-    "lint:fix": "yarn lint --fix",
+    "lint:fix": "pnpm run lint --fix",
     "pretty": "prettier .prettierrc 'packages/react-dice/src/' 'demo/src'",
-    "pretty:check": "yarn pretty --check",
-    "pretty:fix": "yarn pretty --write"
+    "pretty:check": "pnpm run pretty --check",
+    "pretty:fix": "pnpm run pretty --write"
   }
 }
