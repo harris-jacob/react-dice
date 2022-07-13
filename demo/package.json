@@ -13,6 +13,7 @@
     "react": "18.1.0",
     "react-dice": "workspace:*",
     "react-dom": "18.1.0",
+    "react-icons": "^4.4.0",
     "react-is": "^18.2.0",
     "styled-components": "^5.3.5",
     "three": "^0.142.0"

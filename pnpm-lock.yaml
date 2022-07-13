@@ -48,6 +48,7 @@ importers:
       react: 18.1.0
       react-dice: workspace:*
       react-dom: 18.1.0
+      react-icons: ^4.4.0
       react-is: ^18.2.0
       styled-components: ^5.3.5
       three: ^0.142.0
@@ -58,6 +59,7 @@ importers:
       react: 18.1.0
       react-dice: link:../packages/react-dice
       react-dom: 18.1.0_react@18.1.0
+      react-icons: 4.4.0_react@18.1.0
       react-is: 18.2.0
       styled-components: 5.3.5_uuaz5p7xzfmtjacf6iqf7idnby
       three: 0.142.0
@@ -6227,6 +6229,17 @@ packages:
       loose-envify: 1.4.0
       react: 18.1.0
       scheduler: 0.22.0
+
+  /react-icons/4.4.0_react@18.1.0:
+    resolution:
+      {
+        integrity: sha512-fSbvHeVYo/B5/L4VhB7sBA1i2tS8MkT0Hb9t2H1AVPkwGfVHLJCqyr2Py9dKMxsyM63Eng1GkdZfbWj+Fmv8Rg==
+      }
+    peerDependencies:
+      react: '*'
+    dependencies:
+      react: 18.1.0
+    dev: false
 
   /react-is/16.13.1:
     resolution:

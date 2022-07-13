@@ -1,11 +1,11 @@
 import styled from 'styled-components'
 import theme from './theme'
 
-const H4 = styled.h4`
-  ${theme.typography.h4};
+const H3 = styled.h3`
+  ${theme.typography.h3};
+  color: '#fff';
   margin: 0;
-  margin-bottom: ${theme.spacing(4)};
   text-transform: uppercase;
 `
 
-export default H4
+export default H3

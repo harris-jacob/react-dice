@@ -1,20 +1,19 @@
-import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import theme from './theme'
 import Toast from './Toast'
 
-export interface DispatchProps {
-  pollStale: () => void
-  dismissToast: (id: string) => void
-}
-
-interface ToastDef {
-  id: string
+interface ToastState {
   timestamp: number
-  description: string
+  id: string
+  result: number
 }
 
-type ToastList = Array<ToastDef>
+export type ToastList = Array<ToastState>
+
+interface ToasterProps {
+  toasts: ToastList
+  dismiss: (id: string) => void
+}
 
 const ToasterContainer = styled.div`
   position: fixed;
@@ -24,19 +23,14 @@ const ToasterContainer = styled.div`
   right: ${theme.spacing(3)};
 `
 
-const Toaster = (): JSX.Element => {
-  const [toast, setToast] = useT
-
-  useEffect(() => {}, [])
-
+const Toaster = ({ toasts, dismiss }: ToasterProps): JSX.Element => {
   return (
     <ToasterContainer>
-      {toasts.map((toast: StoreToast) => (
+      {toasts.map((toast) => (
         <Toast
-          dismiss={() => dismissToast(toast.id)}
+          dismiss={() => dismiss(toast.id)}
           key={toast.id}
-          title={toast.title}
-          description={toast.description}
+          result={toast.result}
         />
       ))}
     </ToasterContainer>
