@@ -11,6 +11,7 @@ const getId = () => `${id++}`
 const MAX_TOAST = 3
 const TOAST_TIMEOUT = 100000
 
+
 const App = () => {
   // TODO auto timeout & max toast
   const [toasts, setToasts] = useState<ToastList>([])
@@ -43,6 +44,17 @@ const App = () => {
     )
   }, TOAST_TIMEOUT)
 
+      setToasts((toasts) => [
+        ...toasts,
+        {
+          id: getId(),
+          result,
+          timestamp: Date.now()
+        }
+      ]),
+    []
+  )
+  
   return (
     <>
       <Toaster toasts={toasts} dismiss={dismissToast} />
