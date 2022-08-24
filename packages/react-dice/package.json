@@ -3,7 +3,7 @@
   "files": [
     "dist/*"
   ],
-  "packageManager": "yarn@3.2.1",
+  "packageManager": "yarn@3.2.3",
   "main": "dist/react-dice.cjs.js",
   "module": "dist/react-dice.esm.js",
   "dependencies": {
