@@ -15,7 +15,7 @@
     "@preconstruct/cli": "2.1.7",
     "@types/react": "18.0.12",
     "@types/three": "0.141.0",
-    "eslint": "8.17.0",
+    "eslint": "8.57.0",
     "eslint-config-react-app": "7.0.1",
     "eslint-plugin-jest-dom": "4.0.2",
     "eslint-plugin-testing-library": "^5.5.1",
