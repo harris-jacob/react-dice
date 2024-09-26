@@ -16,7 +16,7 @@
     "react-icons": "^4.4.0",
     "react-is": "^18.2.0",
     "styled-components": "^5.3.5",
-    "three": "^0.142.0"
+    "three": "^0.169.0"
   },
   "devDependencies": {
     "@types/react": "18.0.12",
