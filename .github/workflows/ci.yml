@@ -58,7 +58,7 @@ jobs:
         run: pnpm install
 
       - name: Setup build cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: build-packages-cache
         with:
           path: packages/**/dist
@@ -91,7 +91,7 @@ jobs:
         run: pnpm install
 
       - name: Setup build cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: build-demo-cache
         with:
           path: demo/dist
