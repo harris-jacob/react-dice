@@ -9,9 +9,9 @@
   "packageManager": "pnpm@7.5.1",
   "devDependencies": {
     "@babel/core": "7.18.2",
-    "@babel/preset-env": "7.18.2",
-    "@babel/preset-react": "7.17.12",
-    "@babel/preset-typescript": "7.17.12",
+    "@babel/preset-env": "7.29.7",
+    "@babel/preset-react": "7.29.7",
+    "@babel/preset-typescript": "7.29.7",
     "@preconstruct/cli": "2.1.7",
     "@types/react": "18.0.12",
     "@types/three": "0.141.0",
